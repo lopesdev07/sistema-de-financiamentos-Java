@@ -1,9 +1,9 @@
 package model;
 
-import java.text.NumberFormat;
-import java.text.ParseException;
-import java.util.Locale;
-
+/**
+ * Classe que representa um modelo de Apartamento,
+ * que herda os atributos e métodos da classe Financiamento.
+ */
 public class Apartamento extends Financiamento {
     private final int vagasGaragem;
     private final int numeroAndar;
@@ -22,7 +22,13 @@ public class Apartamento extends Financiamento {
         return numeroAndar;
     }
 
-
+    /**
+     * Retorna uma representação em texto do Apartamento.
+     * Combinando os atributos herdados da classe Financiamento
+     * com os atributos específicos da classe Apartamento.
+     *
+     * @return String formatada e detalhada de acordo com seus atributos.
+     */
     @Override
     public String toString() {
         return String.format(
@@ -33,35 +39,6 @@ public class Apartamento extends Financiamento {
             getNumeroAndar(),
             getVagasGaragem()
         );
-    }
-
-
-    public String toFileString() {
-        return String.format("%f;%d;%f;%d;%d",
-                getValorImovel(),
-                getPrazoFinanciamento(),
-                getTaxaJurosAnual(),
-                getNumeroAndar(),
-                getVagasGaragem()
-        );
-    }
-
-    public static Apartamento fromString(String linha) {
-        String[] partes = linha.split(";");
-        try {
-            NumberFormat nf = NumberFormat.getInstance(new Locale("pt", "BR"));
-
-            double valorImovel = nf.parse(partes[0].trim()).doubleValue();
-            int prazoFinanciamento = Integer.parseInt(partes[1].trim());
-            double taxaJurosAnual = nf.parse(partes[2].trim()).doubleValue();
-            int numeroAndar = Integer.parseInt(partes[3].trim());
-            int vagasGaragem = Integer.parseInt(partes[4].trim());
-
-            return new Apartamento(valorImovel, prazoFinanciamento, taxaJurosAnual, vagasGaragem, numeroAndar);
-
-        } catch (ParseException e) {
-            throw new RuntimeException("Erro ao converter linha do arquivo: " + linha, e);
-        }
     }
 
 }

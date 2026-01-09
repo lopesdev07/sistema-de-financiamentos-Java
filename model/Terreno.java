@@ -1,8 +1,9 @@
 package model;
 
-import java.text.NumberFormat;
-import java.text.ParseException;
-import java.util.Locale;
+/**
+ * Classe que representa um modelo de Terreno,
+ * que herda os atributos e métodos da classe Financiamento.
+ */
 
 public class Terreno extends Financiamento  {
     private final String zonaLocalizada;
@@ -16,6 +17,13 @@ public class Terreno extends Financiamento  {
         return zonaLocalizada;
     }
 
+    /**
+     * Retorna uma representação em texto da casa.
+     * Combinando os atributos herdados da classe Financiamento
+     * com os atributos específicos da classe Casa.
+     *
+     * @return String formatada e detalhada de acordo com seus atributos.
+     */
     @Override
     public String toString() {
         return String.format(
@@ -28,29 +36,4 @@ public class Terreno extends Financiamento  {
     }
 
 
-    public String toFileString() {
-        return String.format("%f;%d;%f;%s",
-                getValorImovel(),
-                getPrazoFinanciamento(),
-                getTaxaJurosAnual(),
-                getZonaLocalizada()
-        );
-    }
-
-    public static Terreno fromString(String linha) {
-        String[] partes = linha.split(";", -1);
-        try {
-            NumberFormat nf = NumberFormat.getInstance(new Locale("pt", "BR"));
-
-            double valorImovel = nf.parse(partes[0].trim()).doubleValue();
-            int prazoFinanciamento = Integer.parseInt(partes[1].trim());
-            double taxaJurosAnual = nf.parse(partes[2].trim()).doubleValue();
-            String zonaLocalizada = partes.length > 3 ? partes[3].trim() : "";
-
-            return new Terreno(valorImovel, prazoFinanciamento, taxaJurosAnual, zonaLocalizada);
-
-        } catch (ParseException e) {
-            throw new RuntimeException("Erro ao converter linha do arquivo: " + linha, e);
-        }
-    }
 }

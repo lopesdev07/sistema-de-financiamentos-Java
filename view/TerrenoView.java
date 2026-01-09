@@ -6,11 +6,18 @@ import java.util.Scanner;
 import repository.TerrenoRepository;
 import service.TerrenoService;
 
+/** Classe exclusivamente responsável por interagir com o usuário para operações relacionadas a terrenos.
+ * Interage com o usuário e o permite realizar operações como criar e listar financiamentos de terrenos.
+ * Também fornece um menu específico para essas operações.
+ */
 public class TerrenoView {
     private final TerrenoService service = new TerrenoService(new TerrenoRepository());
-    private final Scanner scanner = new Scanner(System.in);
 
-    public void criarFinanciamentoTerreno() {
+    /** Cria financiamento de terreno.
+     *
+     * @param scanner Scanner para leitura de entradas do usuário.
+     */
+    public void criarFinanciamentoTerreno(Scanner scanner) {
         boolean funcionou = false;
         while (!funcionou) {
             try {
@@ -20,13 +27,14 @@ public class TerrenoView {
                 int prazoFinanciamento = scanner.nextInt();
                 System.out.println("Informe a taxa de juros anual (em %): ");
                 double taxaJurosAnual = scanner.nextDouble() / 100;
-                scanner.nextLine(); // consumir newline antes de ler string
+                scanner.nextLine();
                 System.out.println("Informe a zona localizada do terreno: ");
                 String zonaLocalizada = scanner.nextLine();
 
                 Terreno terreno = new Terreno(valorImovel, prazoFinanciamento, taxaJurosAnual, zonaLocalizada);
                 service.cadastrarFinanciamento(terreno);
                 funcionou = true;
+                System.out.println("Terreno inserido com sucesso!");
             } catch (InputMismatchException e) {
                 System.out.println("Valor inválido. Tente novamente.");
                 scanner.nextLine();
@@ -34,6 +42,8 @@ public class TerrenoView {
         }
     }
 
+    /** Lista financiamentos de terrenos, caso exista algum.
+     */
     public void listarFinanciamentosTerreno() {
         System.out.println("Listando financiamentos de terrenos:");
         var terrenos = service.listarDados();
@@ -45,8 +55,11 @@ public class TerrenoView {
             }
         }
     }
-
-    public void menuTerreno(){
+    /** Menu para interação com o usuário (terrenos).
+     *
+     * @param scanner Scanner para leitura de entradas do usuário.
+     */
+    public void menuTerreno(Scanner scanner){
         boolean opcaoCertaTerreno = false;
         while (!opcaoCertaTerreno) {
             try {
@@ -59,7 +72,7 @@ public class TerrenoView {
 
                 switch(scanner.nextInt()) {
                     case 1:
-                        criarFinanciamentoTerreno();
+                        criarFinanciamentoTerreno(scanner);
                         break;
                     case 2:
                         listarFinanciamentosTerreno();

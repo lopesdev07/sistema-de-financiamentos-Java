@@ -6,13 +6,20 @@ import java.util.Scanner;
 import repository.CasaRepository;
 import service.CasaService;
 
+
+/** Classe exclusivamente responsável por interagir com o usuário para operações relacionadas a Casas.
+ * Interage com o usuário e o permite realizar operações como criar e listar financiamentos de Casas.
+ * Também fornece um menu específico para essas operações.
+ */
 public class CasaView {
     private final CasaService service = new CasaService(new CasaRepository());
-    private final Scanner scanner = new Scanner(System.in);
 
 
-
-    public void criarFinanciamentoCasa() {
+    /** Cria financiamento de casa.
+     *
+     * @param scanner Scanner para leitura de entradas do usuário.
+     */
+    public void criarFinanciamentoCasa(Scanner scanner) { // Criação final de financiamento de casa aplicando service e repository
         boolean funcionou = false;
         while (!funcionou) {
             try {
@@ -30,12 +37,16 @@ public class CasaView {
                 Casa casa = new Casa(valorImovel, prazoFinanciamento, taxaJurosAnual, 80, tamanhoAreaConstruida, tamanhoAreaTerreno);
                 service.cadastrarFinanciamento(casa);
                 funcionou = true;
+                System.out.println("Casa inserida com sucesso!");
             } catch (InputMismatchException e) {
                 System.out.println("Valor inválido. Tente novamente.");
                 scanner.nextLine();
             }
         }
     }
+
+        /** Lista financiamentos de apartamentos, caso exista algum.
+        */
         public void listarFinanciamentosCasa () {
             System.out.println("Listando financiamentos de casas:");
             var casas = service.listarDados();
@@ -47,8 +58,11 @@ public class CasaView {
                 }
             }
         }
-
-    public void menuCasa(){
+    /** Menu para interação com o usuário (casas).
+     *
+     * @param scanner Scanner para leitura de entradas do usuário.
+     */
+    public void menuCasa(Scanner scanner){
         boolean opcaoCertaCasa = false;
         while (!opcaoCertaCasa) {
             try {
@@ -61,7 +75,7 @@ public class CasaView {
 
                 switch(scanner.nextInt()) {
                     case 1:
-                        criarFinanciamentoCasa();;
+                        criarFinanciamentoCasa(scanner);;
                         break;
                     case 2:
                         listarFinanciamentosCasa();

@@ -7,11 +7,18 @@ import repository.ApartamentoRepository;
 import service.ApartamentoService;
 import java.util.List;
 
-public class ApartamentoView {
+/** Classe exclusivamente responsável por interagir com o usuário para operações relacionadas a apartamentos.
+ * Interage com o usuário e o permite realizar operações como criar e listar financiamentos de apartamentos.
+ * Também fornece um menu específico para essas operações.
+ */
+public class ApartamentoView { // Classe de interação com o usuário
     private final ApartamentoService service = new ApartamentoService(new ApartamentoRepository());
-    private final Scanner scanner = new Scanner(System.in);
 
-    public void criarFinanciamentoApartamento() {
+    /** Cria financiamento de apartamento.
+     *
+     * @param scanner Scanner para leitura de entradas do usuário.
+     */
+    public void criarFinanciamentoApartamento(Scanner scanner) {
         boolean funcionou = false;
         while (!funcionou) {
             try {
@@ -29,6 +36,7 @@ public class ApartamentoView {
                 Apartamento apto = new Apartamento(valorImovel, prazoFinanciamento, taxaJurosAnual, vagasGaragem, numeroAndar);
                 service.cadastrarFinanciamento(apto);
                 funcionou = true;
+                System.out.println("Apartamento inserido com sucesso!");
             } catch (InputMismatchException e) {
                 System.out.println("Valor inválido. Tente novamente.");
                 scanner.nextLine();
@@ -36,6 +44,8 @@ public class ApartamentoView {
         }
     }
 
+    /** Lista financiamentos de apartamentos, caso exista algum.
+     */
     public void listarFinanciamentosApartamento() {
         System.out.println("Listando financiamentos de apartamentos:");
         List<Apartamento> apartamentos = service.listarDados();
@@ -47,8 +57,11 @@ public class ApartamentoView {
             }
         }
     }
-
-    public void menuApartamento() {
+    /** Menu para interação com o usuário (apartamentos).
+     *
+     * @param scanner Scanner para leitura de entradas do usuário.
+     */
+    public void menuApartamento(Scanner scanner) {
         boolean opcaoCerta = false;
         while (!opcaoCerta) {
             try {
@@ -61,7 +74,7 @@ public class ApartamentoView {
 
                 switch(scanner.nextInt()) {
                     case 1:
-                        criarFinanciamentoApartamento();
+                        criarFinanciamentoApartamento(scanner);
                         break;
                     case 2:
                         listarFinanciamentosApartamento();

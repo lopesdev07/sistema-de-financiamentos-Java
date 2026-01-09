@@ -1,9 +1,9 @@
 package model;
-import java.text.NumberFormat;
-import java.text.ParseException;
-import java.util.Locale;
 
-
+/**
+ * Classe que representa um modelo de Casa,
+ * que herda os atributos e métodos da classe Financiamento.
+ */
 public class Casa extends Financiamento  {
     private int valorFixo = 80;
     private final double tamanhoAreaConstruida;
@@ -17,6 +17,9 @@ public class Casa extends Financiamento  {
         this.tamanhoAreaTerreno = tamanhoAreaTerreno;
     }
 
+    public int getValorFixo() {
+        return valorFixo;
+    }
     public double getTamanhoAreaConstruida() {
         return tamanhoAreaConstruida;
     }
@@ -25,7 +28,13 @@ public class Casa extends Financiamento  {
         return tamanhoAreaTerreno;
     }
 
-
+    /**
+     * Retorna uma representação em texto da casa.
+     * Combinando os atributos herdados da classe Financiamento
+     * com os atributos específicos da classe Casa.
+     *
+     * @return String formatada e detalhada de acordo com seus atributos.
+     */
     @Override
     public String toString() {
     return String.format(
@@ -37,40 +46,6 @@ public class Casa extends Financiamento  {
         getTamanhoAreaTerreno()
     );
 }
-
-    public String toFileString() {
-        return String.format("%f;%d;%f;%f;%f",
-                getValorImovel(),
-                getPrazoFinanciamento(),
-                getTaxaJurosAnual(),
-                getTamanhoAreaConstruida(),
-                getTamanhoAreaTerreno()
-        );
-    }
-
-
-
-    public static Casa fromString(String linha) {
-        String[] partes = linha.split(";");
-        try {
-            NumberFormat nf = NumberFormat.getInstance(new Locale("pt", "BR"));
-
-            double valorImovel = nf.parse(partes[0].trim()).doubleValue();
-            int prazoFinanciamento = Integer.parseInt(partes[1].trim());
-            double taxaJurosAnual = nf.parse(partes[2].trim()).doubleValue();
-            double tamanhoAreaConstruida = nf.parse(partes[3].trim()).doubleValue();
-            double tamanhoAreaTerreno = nf.parse(partes[4].trim()).doubleValue();
-
-            return new Casa(valorImovel, prazoFinanciamento, taxaJurosAnual, 80,
-                    tamanhoAreaConstruida, tamanhoAreaTerreno);
-
-        } catch (ParseException e) {
-            throw new RuntimeException("Erro ao converter linha do arquivo: " + linha, e);
-        }
-    }
-
-
-
 
 
 }

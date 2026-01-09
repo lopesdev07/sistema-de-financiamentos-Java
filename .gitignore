@@ -1,0 +1,13 @@
+# IntelliJ / IDEs
+.idea/
+*.iml
+
+# Build / output
+out/
+bin/
+
+# Libraries locais
+lib/
+
+# Logs
+*.log

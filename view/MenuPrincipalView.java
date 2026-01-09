@@ -2,15 +2,22 @@ package view;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
-
+/** Classe responsável por interagir com o usuário para operações relacionadas ao menu principal.
+ * Interage com o usuário e o permite escolher o tipo de financiamento que deseja gerenciar.
+ */
 public class MenuPrincipalView {
     boolean opcaocerta = false;
-    Scanner scanner = new Scanner(System.in);
     CasaView casaView = new CasaView();
     ApartamentoView apartamentoView = new ApartamentoView();
     TerrenoView terrenoView = new TerrenoView();
 
-    public void exibirMenuPrincipal() {
+    public MenuPrincipalView(Scanner scanner) {
+    }
+    /** Exibe o menu principal para o usuário.
+     *
+     * @param scanner Scanner para leitura de entradas do usuário.
+     */
+    public void exibirMenuPrincipal(Scanner scanner) {
         while (!opcaocerta) {
 
             try {
@@ -25,13 +32,13 @@ public class MenuPrincipalView {
 
                 switch(scanner.nextInt()) {
                     case 1:
-                        casaView.menuCasa();
+                        casaView.menuCasa(scanner);
                         break;
                     case 2:
-                        apartamentoView.menuApartamento();
+                        apartamentoView.menuApartamento(scanner);
                         break;
                     case 3:
-                        terrenoView.menuTerreno();
+                        terrenoView.menuTerreno(scanner);
                         break;
                     case 4:
                         System.out.println("Saindo do sistema. Até mais!");
