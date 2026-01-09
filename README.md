@@ -3,12 +3,19 @@
 
 # 📚 Sistema de financiamentos Java 
 
-**Descrição:** Aplicação desenvolvida em Java para prática em desenvolvimento backend. Implementa funções de adicionar e remover entidades por meio de ArrayLists com persistência em arquivos TXT. Projeto pouco utilizavel/esqueleto e em constante evolução
+**Descrição:** Aplicação desenvolvida em Java para prática em desenvolvimento backend. Implementa funções de adicionar e remover entidades por meio banco de dados em SQL utilizando JDBC. Projeto pouco utilizavel/esqueleto e em constante evolução
+
+## 📝 Changelog
+- Implementação de persistência de dados via banco de dados MySQL utilizando JDBC
+- Criação da classe "DatabaseConnection" para a configuração da conexão de acesso ao banco
+- Utilização de variáveis de ambiente para a conexão do BD, visando evitar o versionamento de dados sensíveis
+- Implementação total de JavaDocs ao projeto e remoção de comentários desnecessários
+- Mudanças nos tratamentos de erros e melhorias na lógica geral dos códigos/projeto
 
 ## 🚀 Tecnologias Utilizadas
 - Java 24
 - IDE: IntelliJ
-- Estrutura de dados: ArrayList/Arquivos TXT
+- Estrutura de dados: Permanência de dados em SQL por meio de JDBC
 
 ---
 
@@ -28,6 +35,30 @@
 ---
 
 ## ▶️ Como Executar
+*--PONTO IMPORTANTE--*
+**A partir do commit desde readme e das alterações feitas nessa versão do projeto, a permanência
+de dados é feita exclusivamente via banco de dados SQL.
+Para que não haja versionamento de informações sensíveis, são utilizadas variáveis de ambiente**
+
+Antes de executar o projeto, é **obrigatório** configurar as seguintes variáveis de ambiente:
+
+- `DB_URL`
+- `DB_USER`
+- `DB_PASSWORD`
+*OBRIGATORIO A REINICIALIZAÇÃO DA IDE OU DO TERMINAL PARA QUE AS MUDANÇAS ENTREM EM VIGOR*
+
+**COMO FAZER ISSO POR MEIO DE POWERSHELL/CMD (WINDOWS)**
+
+**setx DB_URL "jdbc:mysql://localhost:3306/projeto_financiamentos"
+setx DB_USER "root"
+setx DB_PASSWORD "sua_senha"**
+
+**(LINUX / MAC)**
+
+**export DB_URL="jdbc:mysql://localhost:3306/projeto_financiamentos"
+export DB_USER="root"
+export DB_PASSWORD="sua_senha"**
+
 1. **Clone este repositório**
    ```bash
    git clone https://github.com/lopesdev07/sistema-de-financiamentos-Java
@@ -49,10 +80,12 @@
 
 🛠 Próximos Passos:
 
-1: Implementar persistência em banco de dados relacionais
+1: Implementação de utilidade para os financiamentos
 
 2: Melhorar tratamento de exceções
 
-3: Implementar testes unitários
+3: Revisar comentários e javadocs (caso seja necessário)
 
-4: Adicionar documentação/comentários nos métodos principais
+4: Implementar testes unitários
+
+5: Migração total do projeto para Spring Boot
