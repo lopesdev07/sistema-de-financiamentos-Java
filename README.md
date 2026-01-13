@@ -34,6 +34,21 @@
 
 ---
 
+## 🗄️ Banco de Dados
+
+Este projeto utiliza **MySQL** para persistência de dados.
+
+A estrutura do banco de dados está definida no arquivo:
+
+database/schema.sql
+
+### Como criar o banco
+1. Crie um banco vazio no MySQL
+2. Execute o script de criação das tabelas:
+```bash
+mysql -u seu_usuario -p nome_do_banco < main/database/schema.sql
+```
+
 ## ▶️ Como Executar
 *--PONTO IMPORTANTE--*
 **A partir do commit desde readme e das alterações feitas nessa versão do projeto, a permanência
