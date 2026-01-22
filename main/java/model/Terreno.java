@@ -1,4 +1,4 @@
-package model;
+package main.java.model;
 
 /**
  * Classe que representa um modelo de Terreno,

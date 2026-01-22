@@ -1,4 +1,4 @@
-package repository;
+package main.java.repository;
 import java.sql.SQLException;
 import java.util.List;
 

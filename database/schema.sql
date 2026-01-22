@@ -3,6 +3,7 @@
 -- Host: localhost    Database: projeto_financiamentos
 -- ------------------------------------------------------
 -- Server version	8.0.43
+--- Schema projeto_financiamentos, rode esse arquivo para criar as tabelas necessárias
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -77,5 +78,12 @@ CREATE TABLE `terrenos` (
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Estrutura de tabela para usuários
+CREATE TABLE users (
+user_id INT AUTO_INCREMENT PRIMARY KEY,
+login_cpf VARCHAR(11) UNIQUE NOT NULL,
+senha_hash VARCHAR(255) NOT NULL
+)
 
 -- Dump completed on 2026-01-13  9:03:23

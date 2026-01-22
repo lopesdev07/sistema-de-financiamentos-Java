@@ -1,17 +1,27 @@
-package view;
+package main.java.view;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
+
 /** Classe responsável por interagir com o usuário para operações relacionadas ao menu principal.
  * Interage com o usuário e o permite escolher o tipo de financiamento que deseja gerenciar.
  */
 public class MenuPrincipalView {
-    boolean opcaocerta = false;
-    CasaView casaView = new CasaView();
-    ApartamentoView apartamentoView = new ApartamentoView();
-    TerrenoView terrenoView = new TerrenoView();
+    private boolean opcaocerta = false;
+    private final CasaView casaView;
+    private final ApartamentoView apartamentoView;
+    private final TerrenoView terrenoView;
 
-    public MenuPrincipalView(Scanner scanner) {
+    /** Constrói o MenuPrincipalView com as views necessárias injetadas.
+     *
+     * @param casaView main.java.view responsável por casas.
+     * @param apartamentoView main.java.view responsável por apartamentos.
+     * @param terrenoView main.java.view responsável por terrenos.
+     */
+    public MenuPrincipalView(CasaView casaView, ApartamentoView apartamentoView, TerrenoView terrenoView) {
+        this.casaView = casaView;
+        this.apartamentoView = apartamentoView;
+        this.terrenoView = terrenoView;
     }
     /** Exibe o menu principal para o usuário.
      *
@@ -21,7 +31,7 @@ public class MenuPrincipalView {
         while (!opcaocerta) {
 
             try {
-                System.out.println("=== Menu Principal ===");
+                System.out.println("--- Menu Principal ---");
                 System.out.println("Bem vindo ao menu principal do Sistema de Financiamentos!");
                 System.out.println("Escolha a opção que determina qual tipo de financiamento deseja gerenciar: ");
                 System.out.println("1. Casas");

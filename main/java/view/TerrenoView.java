@@ -1,17 +1,24 @@
-package view;
+package main.java.view;
 
-import model.Terreno;
+import main.java.model.Terreno;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import repository.TerrenoRepository;
-import service.TerrenoService;
+import main.java.service.TerrenoService;
 
 /** Classe exclusivamente responsável por interagir com o usuário para operações relacionadas a terrenos.
  * Interage com o usuário e o permite realizar operações como criar e listar financiamentos de terrenos.
  * Também fornece um menu específico para essas operações.
  */
 public class TerrenoView {
-    private final TerrenoService service = new TerrenoService(new TerrenoRepository());
+    private final TerrenoService service;
+
+    /** Cria uma nova TerrenoView com o serviço injetado.
+     *
+     * @param service serviço responsável pelas operações de terreno.
+     */
+    public TerrenoView(TerrenoService service) {
+        this.service = service;
+    }
 
     /** Cria financiamento de terreno.
      *

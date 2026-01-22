@@ -1,7 +1,7 @@
-package repository;
+package main.java.repository;
 
-import model.Terreno;
-import java.io.*;
+import main.java.model.Terreno;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

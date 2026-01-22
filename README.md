@@ -1,16 +1,28 @@
 # sistema-de-financiamentos-Java
 
 
-# 📚 Sistema de financiamentos Java 
+# 📚 Sistema de financiamentos Java | v.1.0.0 BETA
 
-**Descrição:** Aplicação desenvolvida em Java para prática em desenvolvimento backend. Implementa funções de adicionar e remover entidades por meio banco de dados em SQL utilizando JDBC. Projeto pouco utilizavel/esqueleto e em constante evolução
+**Descrição:** Aplicação de financiamentos desenvolvida em Java para prática em desenvolvimento backend. Implementa funções de adicionar e remover entidades por meio banco de dados em SQL utilizando JDBC. Utiliza hash/salt de senhas, injeção de dependências via construtor e migração para Maven. Projeto em versão BETA, com funcionalidades básicas e em constante evolução.
 
-## 📝 Changelog
-- Implementação de persistência de dados via banco de dados MySQL utilizando JDBC
-- Criação da classe "DatabaseConnection" para a configuração da conexão de acesso ao banco
-- Utilização de variáveis de ambiente para a conexão do BD, visando evitar o versionamento de dados sensíveis
-- Implementação total de JavaDocs ao projeto e remoção de comentários desnecessários
-- Mudanças nos tratamentos de erros e melhorias na lógica geral dos códigos/projeto
+## 📝 Changelog - v.1.0.0 BETA - 2026-01-22
+### Autenticação e Registro de Usuários
+- Implementação de login e registro com persistência em banco de dados
+- Senhas protegidas com hash e salt (BCrypt)
+- Separação clara entre View, Service e Repository
+- Validação de CPF com exceções de domínio
+
+### Arquitetura e Boas Práticas
+- Injeção de dependências via construtor em todas as camadas
+- Eliminação de instanciação direta (`new`) fora da classe Main
+- Uso consistente de exceções de domínio para regras de negócio
+
+### Gerenciamento de Dependências
+- Migração do projeto para Maven
+- Remoção de dependências manuais (.lib)
+- Dependências declaradas via `pom.xml`
+
+
 
 ## 🚀 Tecnologias Utilizadas
 - Java 24
@@ -95,12 +107,14 @@ export DB_PASSWORD="sua_senha"**
 
 🛠 Próximos Passos:
 
-1: Implementação de utilidade para os financiamentos
+1:  Implementar mais utilidades para o usuário e para financiamentos
 
-2: Melhorar tratamento de exceções
+2: Revisão da fatoração de instâncias de objetos de todos os packages
 
-3: Revisar comentários e javadocs (caso seja necessário)
+3: Adicionar lógica de usuário (perfis, permissões, etc) e lógica de sessão 
 
 4: Implementar testes unitários
 
-5: Migração total do projeto para Spring Boot
+5: Revisar comentários e javadocs (caso seja necessário)
+
+6- Migração total do projeto para Spring Boot

@@ -1,10 +1,9 @@
-package view;
+package main.java.view;
 
-import model.Apartamento;
+import main.java.model.Apartamento;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import repository.ApartamentoRepository;
-import service.ApartamentoService;
+import main.java.service.ApartamentoService;
 import java.util.List;
 
 /** Classe exclusivamente responsável por interagir com o usuário para operações relacionadas a apartamentos.
@@ -12,7 +11,15 @@ import java.util.List;
  * Também fornece um menu específico para essas operações.
  */
 public class ApartamentoView { // Classe de interação com o usuário
-    private final ApartamentoService service = new ApartamentoService(new ApartamentoRepository());
+    private final ApartamentoService service;
+
+    /** Cria uma nova ApartamentoView com o serviço injetado.
+     *
+     * @param service serviço responsável pelas operações de apartamento.
+     */
+    public ApartamentoView(ApartamentoService service) {
+        this.service = service;
+    }
 
     /** Cria financiamento de apartamento.
      *

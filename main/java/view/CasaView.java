@@ -1,25 +1,27 @@
-package view;
+package main.java.view;
 
-import model.Casa;
+import main.java.model.Casa;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import repository.CasaRepository;
-import service.CasaService;
-
+import main.java.service.CasaService;
+import java.util.List;
 
 /** Classe exclusivamente responsável por interagir com o usuário para operações relacionadas a Casas.
  * Interage com o usuário e o permite realizar operações como criar e listar financiamentos de Casas.
  * Também fornece um menu específico para essas operações.
  */
 public class CasaView {
-    private final CasaService service = new CasaService(new CasaRepository());
+    private final CasaService service;
 
+    public CasaView(CasaService service) {
+        this.service = service;
+    }
 
     /** Cria financiamento de casa.
      *
-     * @param scanner Scanner para leitura de entradas do usuário.
+     *@param scanner Scanner para leitura de entradas do usuário.
      */
-    public void criarFinanciamentoCasa(Scanner scanner) { // Criação final de financiamento de casa aplicando service e repository
+    public void criarFinanciamentoCasa(Scanner scanner) {
         boolean funcionou = false;
         while (!funcionou) {
             try {
@@ -44,23 +46,22 @@ public class CasaView {
             }
         }
     }
-
-        /** Lista financiamentos de apartamentos, caso exista algum.
-        */
-        public void listarFinanciamentosCasa () {
-            System.out.println("Listando financiamentos de casas:");
-            var casas = service.listarDados();
-            if (casas.isEmpty()) {
-                System.out.println("Nenhum financiamento de casa encontrado.");
-            } else {
-                for (Casa casa : casas) {
-                    System.out.println(casa);
-                }
+    /** Lista financiamentos de apartamentos, caso exista algum.
+     */
+    public void listarFinanciamentosCasa() {
+        System.out.println("Listando financiamentos de casas:");
+        List<Casa> casas = service.listarDados();
+        if (casas.isEmpty()) {
+            System.out.println("Nenhum financiamento de casa encontrado.");
+        } else {
+            for (Casa casa : casas) {
+                System.out.println(casa);
             }
         }
+    }
     /** Menu para interação com o usuário (casas).
      *
-     * @param scanner Scanner para leitura de entradas do usuário.
+     *@param scanner Scanner para leitura de entradas do usuário.
      */
     public void menuCasa(Scanner scanner){
         boolean opcaoCertaCasa = false;
@@ -75,7 +76,7 @@ public class CasaView {
 
                 switch(scanner.nextInt()) {
                     case 1:
-                        criarFinanciamentoCasa(scanner);;
+                        criarFinanciamentoCasa(scanner);
                         break;
                     case 2:
                         listarFinanciamentosCasa();
@@ -92,6 +93,4 @@ public class CasaView {
             }
         }
     }
-
-
 }

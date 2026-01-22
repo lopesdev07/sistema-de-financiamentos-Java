@@ -1,7 +1,7 @@
-package service;
+package main.java.service;
 
-import model.Apartamento;
-import repository.ApartamentoRepository;
+import main.java.model.Apartamento;
+import main.java.repository.ApartamentoRepository;
 import java.sql.SQLException;
 import java.sql.SQLSyntaxErrorException;
 import java.util.ArrayList;
@@ -27,7 +27,6 @@ public class ApartamentoService implements FinanciamentoService<Apartamento> {
         try {
             Repository.escreverDados(apartamento);
         }
-
         catch (SQLException e) {
             if (e instanceof SQLSyntaxErrorException) {
                 System.err.println("Erro de sintaxe no SQL: " + e.getMessage());
@@ -43,7 +42,6 @@ public class ApartamentoService implements FinanciamentoService<Apartamento> {
      *
      * @return Lista de objetos do tipo Apartamento.
      */
-
     @Override
     public List<Apartamento> listarDados() { // Exceções de listagem
         try {

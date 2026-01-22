@@ -1,6 +1,6 @@
-package repository;
+package main.java.repository;
 
-import model.Apartamento;
+import main.java.model.Apartamento;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

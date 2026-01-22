@@ -1,6 +1,6 @@
-package repository;
-import model.Casa;
-import java.io.*;
+package main.java.repository;
+import main.java.model.Casa;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
