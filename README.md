@@ -1,6 +1,5 @@
 # sistema-de-financiamentos-Java
 
-
 # 📚 Sistema de financiamentos Java | v.1.0.0 BETA
 
 **Descrição:** Aplicação de financiamentos desenvolvida em Java para prática em desenvolvimento backend. Implementa funções de adicionar e remover entidades por meio banco de dados em SQL utilizando JDBC. Utiliza hash/salt de senhas, injeção de dependências via construtor e migração para Maven. Projeto em versão BETA, com funcionalidades básicas e em constante evolução.
@@ -22,7 +21,7 @@
 - Remoção de dependências manuais (.lib)
 - Dependências declaradas via `pom.xml`
 
-
+---
 
 ## 🚀 Tecnologias Utilizadas
 - Java 24
@@ -111,7 +110,9 @@ export DB_PASSWORD="sua_senha"**
 
 2: Revisão da fatoração de instâncias de objetos de todos os packages
 
-3: Adicionar lógica de usuário (perfis, permissões, etc) e lógica de sessão 
+3: Adicionar lógica de usuário (perfis, permissões, etc) e lógica de sessão
+
+4: Revisar e aumentar javadocs
 
 4: Implementar testes unitários
 

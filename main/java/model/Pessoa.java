@@ -1,4 +1,4 @@
-package main.java.model;
+/*package main.java.model; // CLASSE AINDA SEM USO REAL, ESQUELETO PARA FUTURAS ATUALIZAÇÕES!!!!!!
 
 import java.time.LocalDate;
 
@@ -41,3 +41,4 @@ public class Pessoa {
                 nomeCompleto, cpf, dataNascimento.toString());
     }
 }
+*/
