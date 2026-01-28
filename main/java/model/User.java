@@ -11,10 +11,10 @@ public class User {
     }
 
     public String getLoginCPF() {
-        return loginCPF;
+        return this.loginCPF;
     }
     public String getSenhaHash() {
-        return senhaHash;
+        return this.senhaHash;
     }
 
     public void setSenhaHash(String senhaHash) {

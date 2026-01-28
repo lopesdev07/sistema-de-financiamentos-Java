@@ -7,40 +7,51 @@ package main.java.model;
      */
     public abstract class ModeloFinanciamento {
 
-        protected double valorFinanciado;
-        protected int prazoEmMeses;
-        protected double taxaJurosAnual; // Conceito anual, utilização em classes será mensal.
-        protected TipoAmortizacao tipoAmortizacao;
-        protected Imovel imovel;
+        private double valorFinanciado;
+        private int prazoEmMeses;
+        private double taxaJurosAnual; // Conceito anual, utilização em classes será mensal.
+        private TipoAmortizacao tipoAmortizacao;
+        private TipoImovel tipoImovel;
+        private FinanciamentoStatus status;
 
         public ModeloFinanciamento(
                 double valorFinanciado,
                 int prazoEmMeses,
                 double taxaJurosAnual,
                 TipoAmortizacao tipoAmortizacao,
-                Imovel imovel
+                TipoImovel tipoImovel,
+                FinanciamentoStatus financiamentoStatus
         ) {
             this.valorFinanciado = valorFinanciado;
             this.prazoEmMeses = prazoEmMeses;
             this.taxaJurosAnual = taxaJurosAnual;
             this.tipoAmortizacao = tipoAmortizacao;
-            this.imovel = imovel;
+            this.tipoImovel = tipoImovel;
+            this.financiamentoStatus = financiamentoStatus;
         }
 
         public double getValorFinanciado() {
-            return valorFinanciado;
+            return this.valorFinanciado;
         }
 
         public int getPrazoEmMeses() {
-            return prazoEmMeses;
+            return this.prazoEmMeses;
         }
 
         public double getTaxaJurosAnual() {
-            return taxaJurosAnual;
+            return this.taxaJurosAnual;
         }
 
         public TipoAmortizacao getTipoAmortizacao() {
-            return tipoAmortizacao;
+            return this.tipoAmortizacao;
+        }
+
+        public TipoImovel getTipoImovel() {
+            return this.tipoImovel;
+        }
+
+        public FinanciamentoStatus getFinanciamentoStatus() {
+            return this.financiamentoStatus;
         }
 
         /**
