@@ -4,23 +4,11 @@
 
 **Descrição:** Aplicação de financiamentos desenvolvida em Java para prática em desenvolvimento backend. Implementa funções de adicionar e remover entidades por meio banco de dados em SQL utilizando JDBC. Utiliza hash/salt de senhas, injeção de dependências via construtor e migração para Maven. Projeto em versão BETA, com funcionalidades básicas e em constante evolução.
 
-## 📝 Changelog - v.1.0.0 BETA - 2026-01-22
-### Autenticação e Registro de Usuários
-- Implementação de login e registro com persistência em banco de dados
-- Senhas protegidas com hash e salt (BCrypt)
-- Separação clara entre View, Service e Repository
-- Validação de CPF com exceções de domínio
-
-### Arquitetura e Boas Práticas
-- Injeção de dependências via construtor em todas as camadas
-- Eliminação de instanciação direta (`new`) fora da classe Main
-- Uso consistente de exceções de domínio para regras de negócio
-
-### Gerenciamento de Dependências
-- Migração do projeto para Maven
-- Remoção de dependências manuais (.lib)
-- Dependências declaradas via `pom.xml`
-
+## 📝 Changelog - v.1.0.1 BETA - PARTE 1 - 2026-01-28
+### Ajustes e melhorias:
+- Reimaginação completa da lógica de financiamentos e imóveis
+- Logica de financiamentos e imoveis agora está mais robusta e realista
+- MODELS todos refeitos com adição de classes abstratas e enums novos
 ---
 
 ## 🚀 Tecnologias Utilizadas

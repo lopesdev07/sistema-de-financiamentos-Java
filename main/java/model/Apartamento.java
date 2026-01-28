@@ -4,12 +4,12 @@ package main.java.model;
  * Classe que representa um modelo de Apartamento,
  * que herda os atributos e métodos da classe Financiamento.
  */
-public class Apartamento extends Financiamento {
+public class Apartamento extends Imovel {
     private final int vagasGaragem;
     private final int numeroAndar;
     
-    public Apartamento(double valorImovel, int prazoFinanciamento, double taxaJurosAnual, int vagasGaragem, int numeroAndar) {
-        super(valorImovel, prazoFinanciamento, taxaJurosAnual);
+    public Apartamento(double valorImovel, double taxaJurosAnual, int vagasGaragem, int numeroAndar) {
+        super(valorImovel, taxaJurosAnual);
         this.vagasGaragem = vagasGaragem;
         this.numeroAndar = numeroAndar;
     }

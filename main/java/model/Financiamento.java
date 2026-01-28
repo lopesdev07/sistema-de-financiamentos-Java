@@ -1,11 +1,11 @@
-package main.java.model;
+/* package main.java.model;
 
 /**
  * Classe que representa um modelo de Financiamento.
  * É usada de base por todas as classes de tipos de imóveis,
  * existindo para que seus atributos e métodos sejam herdados.
  */
-public class Financiamento {
+/* public class Financiamento {
 
     private final double valorImovel;
     private final int prazoFinanciamento;
@@ -37,10 +37,10 @@ public double getTaxaJurosAnual() {
  *
  * @return String formatada e detalhada de acordo com seus atributos.
  */
-@Override
+/*@Override
 public String toString() {
     return String.format("Valor do Imóvel: R$ %.2f%nPrazo do Financiamento: %d anos%nTaxa de Juros Anual: %.2f%%%n",
                           valorImovel, prazoFinanciamento, taxaJurosAnual);
 
 }
-}
+}*/

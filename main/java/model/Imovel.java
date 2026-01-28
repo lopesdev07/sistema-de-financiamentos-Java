@@ -1,12 +1,12 @@
 package main.java.model;
 
 public abstract class Imovel {
-    protected double valorImovel;
-    protected TipoImovel tipoImovel;
-    protected double areaM2;
-    protected double condicaoImovel;
+    private double valorImovel;
+    private TipoImovel tipoImovel;
+    private double areaM2;
+    private CondicaoImovel condicaoImovel;
 
-    protected Imovel(double valorImovel, TipoImovel tipoImovel, double areaM2, double condicaoImovel) {
+    protected Imovel(double valorImovel, TipoImovel tipoImovel, double areaM2, CondicaoImovel condicaoImovel) {
         this.valorImovel = valorImovel;
         this.tipoImovel = tipoImovel;
         this.areaM2 = areaM2;
@@ -25,7 +25,7 @@ public abstract class Imovel {
         return areaM2;
     }
 
-    public double getCondicaoImovel() {
+    public CondicaoImovel getCondicaoImovel() {
         return condicaoImovel;
     }
 
@@ -41,7 +41,7 @@ public abstract class Imovel {
         this.areaM2 = areaM2;
     }
 
-    protected void setCondicaoImovel(double condicaoImovel) {
+    protected void setCondicaoImovel(CondicaoImovel condicaoImovel) {
         this.condicaoImovel = condicaoImovel;
     }
 }

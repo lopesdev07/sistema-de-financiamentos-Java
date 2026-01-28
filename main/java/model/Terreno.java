@@ -18,9 +18,9 @@ public class Terreno extends Financiamento  {
     }
 
     /**
-     * Retorna uma representação em texto da casa.
+     * Retorna uma representação em texto de terreno.
      * Combinando os atributos herdados da classe Financiamento
-     * com os atributos específicos da classe Casa.
+     * com os atributos específicos da classe Terreno.
      *
      * @return String formatada e detalhada de acordo com seus atributos.
      */

@@ -4,28 +4,29 @@ package main.java.model;
  * Classe que representa um modelo de Casa,
  * que herda os atributos e métodos da classe Financiamento.
  */
-public class Casa extends Financiamento  {
-    private int valorFixo = 80;
-    private final double tamanhoAreaConstruida;
-    private final double tamanhoAreaTerreno;
+public class Casa extends Imovel  {
+    private final int vagasGaragem;
+    private final int quartos;
+    private final double areaTerreno;
 
 
-    public Casa(double valorImovel, int prazoFinanciamento, double taxaJurosAnual, int valorFixo, double tamanhoAreaConstruida, double tamanhoAreaTerreno) { //Construtor
-        super(valorImovel, prazoFinanciamento, taxaJurosAnual);
-        this.valorFixo = valorFixo;
-        this.tamanhoAreaConstruida = tamanhoAreaConstruida;
-        this.tamanhoAreaTerreno = tamanhoAreaTerreno;
+    public Casa(double valorImovel, TipoImovel tipoImovel, double areaM2, CondicaoImovel condicaoImovel, int vagasGaragem, int quartos, double areaTerreno ) { //Construtor
+        super(valorImovel, tipoImovel, areaM2, condicaoImovel);
+        this.vagasGaragem = vagasGaragem;
+        this.quartos = quartos;
+        this.areaTerreno = areaTerreno;
     }
 
-    public int getValorFixo() {
-        return valorFixo;
-    }
-    public double getTamanhoAreaConstruida() {
-        return tamanhoAreaConstruida;
+    public int getVagasGaragem() {
+        return vagasGaragem;
     }
 
-    public double getTamanhoAreaTerreno() {
-        return tamanhoAreaTerreno;
+    public int getQuartos() {
+        return quartos;
+    }
+
+    public double getAreaTerreno() {
+        return areaTerreno;
     }
 
     /**
@@ -38,12 +39,9 @@ public class Casa extends Financiamento  {
     @Override
     public String toString() {
     return String.format(
-        "Casa | Valor: R$ %.2f | Prazo: %d anos | Juros: %.2f%% ao ano | Área construída: %.2f m² | Área do terreno: %.2f m²",
-        getValorImovel(),
-        getPrazoFinanciamento(),
-        getTaxaJurosAnual() * 100,
-        getTamanhoAreaConstruida(),
-        getTamanhoAreaTerreno()
+        "Casa | Valor: R$ %.2f | Tipo: %s | Área: %.2f m² | Condição: %s | Vagas Garagem: %d | Quartos: %d | Área Terreno: %.2f m²",
+        getValorImovel(), getTipoImovel(), getAreaM2(), getCondicaoImovel(), getVagasGaragem(), getQuartos(), getAreaTerreno()
+
     );
 }
 
