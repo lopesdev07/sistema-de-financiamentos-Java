@@ -23,6 +23,8 @@
 ## 📂 Estrutura do Projeto
 **ProjetoFinanciamentos/**
 
+**Exceptions** → classes que criam exceções necessárias para o funcionamento correto do projeto
+
 **Model** → classes que representam as entidades (Apartamento, Casa, Financiamento e Terreno
 
 **Repository** → armazenamento em arquivos TXT e parâmetros básicos
@@ -52,9 +54,7 @@ mysql -u seu_usuario -p nome_do_banco < main/database/schema.sql
 
 ## ▶️ Como Executar
 *--PONTO IMPORTANTE--*
-**A partir do commit desde readme e das alterações feitas nessa versão do projeto, a permanência
-de dados é feita exclusivamente via banco de dados SQL.
-Para que não haja versionamento de informações sensíveis, são utilizadas variáveis de ambiente**
+**Para que não haja versionamento de informações sensíveis, são utilizadas variáveis de ambiente**
 
 Antes de executar o projeto, é **obrigatório** configurar as seguintes variáveis de ambiente:
 
