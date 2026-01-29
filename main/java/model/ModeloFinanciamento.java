@@ -20,14 +20,14 @@ package main.java.model;
                 double taxaJurosAnual,
                 TipoAmortizacao tipoAmortizacao,
                 TipoImovel tipoImovel,
-                FinanciamentoStatus financiamentoStatus
+                FinanciamentoStatus status
         ) {
             this.valorFinanciado = valorFinanciado;
             this.prazoEmMeses = prazoEmMeses;
             this.taxaJurosAnual = taxaJurosAnual;
             this.tipoAmortizacao = tipoAmortizacao;
             this.tipoImovel = tipoImovel;
-            this.financiamentoStatus = financiamentoStatus;
+            this.status = FinanciamentoStatus.SOLICITADO;
         }
 
         public double getValorFinanciado() {
@@ -52,6 +52,10 @@ package main.java.model;
 
         public FinanciamentoStatus getFinanciamentoStatus() {
             return this.financiamentoStatus;
+        }
+
+        public void setFinanciamentoStatus(FinanciamentoStatus status) {
+            this.status = status;
         }
 
         /**
