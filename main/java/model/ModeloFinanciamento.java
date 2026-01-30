@@ -1,17 +1,19 @@
 package main.java.model;
 
+import java.model.FinanciamentoStatus;
+
 /**
      * Representa o modelo inicial do contrato financeiro de um financiamento.
      * Define um contrato com os atributos e comportamentos mínimos que todo
      * financiamento deve possuir.
      */
     public abstract class ModeloFinanciamento {
-
-        private double valorFinanciado;
-        private int prazoEmMeses;
-        private double taxaJurosAnual; // Conceito anual, utilização em classes será mensal.
-        private TipoAmortizacao tipoAmortizacao;
-        private TipoImovel tipoImovel;
+        ;
+        private final double valorFinanciado;
+        private final int prazoEmMeses;
+        private final double taxaJurosAnual; // Conceito anual, utilização em classes será mensal.
+        private final TipoAmortizacao tipoAmortizacao;
+        private final TipoImovel tipoImovel;
         private FinanciamentoStatus status;
 
         public ModeloFinanciamento(
@@ -28,6 +30,10 @@ package main.java.model;
             this.tipoAmortizacao = tipoAmortizacao;
             this.tipoImovel = tipoImovel;
             this.status = FinanciamentoStatus.SOLICITADO;
+        }
+
+        public double getValorImovel() {
+            return this.valorImovel;
         }
 
         public double getValorFinanciado() {
@@ -51,7 +57,7 @@ package main.java.model;
         }
 
         public FinanciamentoStatus getFinanciamentoStatus() {
-            return this.financiamentoStatus;
+            return this.status;
         }
 
         public void setFinanciamentoStatus(FinanciamentoStatus status) {
@@ -67,7 +73,8 @@ package main.java.model;
          * Calcula o valor total pago ao final do financiamento.
          */
         public abstract double calcularValorTotalPago();
-    }
+
+}
 
 
 

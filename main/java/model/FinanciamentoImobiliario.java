@@ -1,5 +1,10 @@
+package main.java.model;
+
+import java.model.FinanciamentoStatus;
+
 public class FinanciamentoImobiliario extends ModeloFinanciamento {
 
+    private final double valorImovel;
     private final int vagasGaragem; // Casa e apartamento
     private final int quartos;
     private final double areaTerreno;
@@ -7,7 +12,6 @@ public class FinanciamentoImobiliario extends ModeloFinanciamento {
     private final boolean elevador;
     private final double valorCondominio;
     private final String zoneamento;
-    private final FinanciamentoStatus financiamentoStatus;
 
 
 
@@ -17,6 +21,7 @@ public class FinanciamentoImobiliario extends ModeloFinanciamento {
             double taxaJurosAnual,
             TipoAmortizacao tipoAmortizacao,
             TipoImovel tipoImovel,
+            double valorImovel,
             int vagasGaragem,
             int quartos,
             double areaTerreno,
@@ -24,10 +29,11 @@ public class FinanciamentoImobiliario extends ModeloFinanciamento {
             boolean elevador,
             double valorCondominio,
             String zoneamento,
-            FinanciamentoStatus financiamentoStatus
+            FinanciamentoStatus status
 
     ) {
-        super(valorFinanciado, prazoEmMeses, taxaJurosAnual, tipoAmortizacao, tipoImovel, financiamentoStatus);
+        super(valorFinanciado, prazoEmMeses, taxaJurosAnual, tipoAmortizacao, tipoImovel, status);
+        this.valorImovel = valorImovel;
         this.vagasGaragem = vagasGaragem;
         this.quartos = quartos;
         this.areaTerreno = areaTerreno;
@@ -35,7 +41,10 @@ public class FinanciamentoImobiliario extends ModeloFinanciamento {
         this.elevador = elevador;
         this.valorCondominio = valorCondominio;
         this.zoneamento = zoneamento;
-        this.financiamentoStatus = financiamentoStatus;
+    }
+
+    public double getValorImovel() {
+        return this.valorImovel;
     }
 
     public int getVagasGaragem() {
@@ -65,6 +74,8 @@ public class FinanciamentoImobiliario extends ModeloFinanciamento {
     public String getZoneamento() {
         return this.zoneamento;
     }
+
+
 
 
         @Override
@@ -103,7 +114,6 @@ public class FinanciamentoImobiliario extends ModeloFinanciamento {
                 calcularValorParcela(),
                 calcularValorTotalPago(),
                 getQuartos(),
-                getVagas(),
                 getVagasGaragem(),
                 getAreaTerreno(),
                 getAndar(),
@@ -113,7 +123,16 @@ public class FinanciamentoImobiliario extends ModeloFinanciamento {
             );
         }
 
+    @Override
+    public double calcularValorParcela() {
+        return 0;
     }
+
+    @Override
+    public double calcularValorTotalPago() {
+        return 0;
+    }
+}
 
 
 
