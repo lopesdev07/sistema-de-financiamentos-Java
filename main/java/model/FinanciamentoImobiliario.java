@@ -5,6 +5,8 @@ import java.model.FinanciamentoStatus;
 public class FinanciamentoImobiliario extends ModeloFinanciamento {
 
     private final double valorImovel;
+    private final double valorEntrada;
+    private final TipoImovel tipoImovel;
     private final int vagasGaragem; // Casa e apartamento
     private final int quartos;
     private final double areaTerreno;
@@ -12,6 +14,7 @@ public class FinanciamentoImobiliario extends ModeloFinanciamento {
     private final boolean elevador;
     private final double valorCondominio;
     private final String zoneamento;
+    private final CondicaoImovel condicaoImovel;
 
 
 
@@ -22,6 +25,7 @@ public class FinanciamentoImobiliario extends ModeloFinanciamento {
             TipoAmortizacao tipoAmortizacao,
             TipoImovel tipoImovel,
             double valorImovel,
+            double valorEntrada,
             int vagasGaragem,
             int quartos,
             double areaTerreno,
@@ -29,11 +33,15 @@ public class FinanciamentoImobiliario extends ModeloFinanciamento {
             boolean elevador,
             double valorCondominio,
             String zoneamento,
+            CondicaoImovel condicaoImovel,
             FinanciamentoStatus status
 
     ) {
-        super(valorFinanciado, prazoEmMeses, taxaJurosAnual, tipoAmortizacao, tipoImovel, status);
+        super(valorFinanciado, prazoEmMeses, taxaJurosAnual, tipoAmortizacao, status);
         this.valorImovel = valorImovel;
+        this.valorEntrada = valorEntrada;
+        this.tipoImovel = tipoImovel;
+        this.condicaoImovel = condicaoImovel;
         this.vagasGaragem = vagasGaragem;
         this.quartos = quartos;
         this.areaTerreno = areaTerreno;
@@ -45,6 +53,14 @@ public class FinanciamentoImobiliario extends ModeloFinanciamento {
 
     public double getValorImovel() {
         return this.valorImovel;
+    }
+
+    public double getValorEntrada() {
+        return this.valorEntrada;
+    }
+
+    public TipoImovel getTipoImovel() {
+        return this.tipoImovel;
     }
 
     public int getVagasGaragem() {
@@ -75,10 +91,57 @@ public class FinanciamentoImobiliario extends ModeloFinanciamento {
         return this.zoneamento;
     }
 
+    public CondicaoImovel getCondicaoImovel() {
+        return this.condicaoImovel;
+    }
+
+    public void setValorImovel(double valorImovel) {
+        this.valorImovel = valorImovel;
+    }
+
+    public void setValorEntrada(double valorEntrada) {
+        this.valorEntrada = valorEntrada;
+    }
+
+    public void setTipoImovel(TipoImovel tipoImovel) {
+        this.tipoImovel = tipoImovel;
+    }
+
+    public void setCondicaoImovel(CondicaoImovel condicaoImovel) {
+        this.condicaoImovel = condicaoImovel;
+    }
+
+    public void setVagasGaragem(int vagasGaragem) {
+        this.vagasGaragem = vagasGaragem;
+    }
+
+    public void setQuartos(int quartos) {
+        this.quartos = quartos;
+    }
+
+    public void setAreaTerreno(double areaTerreno) {
+        this.areaTerreno = areaTerreno;
+    }
+
+    public void setAndar(int andar) {
+        this.andar = andar;
+    }
+
+    public void setElevador(boolean elevador) {
+        this.elevador = elevador;
+    }
+
+    public void setValorCondominio(double valorCondominio) {
+        this.valorCondominio = valorCondominio;
+    }
+
+    public void setZoneamento(String zoneamento) {
+        this.zoneamento = zoneamento;
+    }
 
 
 
-        @Override
+        @Override // Arrumar com entrada, valor do imóvel e tipo imovel
         public String toString() { // toString pra cada imóvel será decidio nas views
             return String.format(
                 """

@@ -9,7 +9,9 @@ public class FinanciamentoImobiliarioService {
         this.repository = repository;
     }
 
-    public void simularFinanciamento() {}
+    public void simularFinanciamento() {
+        
+    }
 
     public void valorFinanciamento() {}
 

@@ -31,6 +31,8 @@ public class AuthService {
                 throw new WrongPasswordInternalException();
             }
 
+            Sessao.login(user.getUserId());
+
         } catch (UserNotFoundInternalException | WrongPasswordInternalException e) {
             // (INTERNAL → EXTERNAL)
             throw new AuthenticationFailedException();

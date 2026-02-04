@@ -13,7 +13,6 @@ import java.model.FinanciamentoStatus;
         private final int prazoEmMeses;
         private final double taxaJurosAnual; // Conceito anual, utilização em classes será mensal.
         private final TipoAmortizacao tipoAmortizacao;
-        private final TipoImovel tipoImovel;
         private FinanciamentoStatus status;
 
         public ModeloFinanciamento(
@@ -21,14 +20,12 @@ import java.model.FinanciamentoStatus;
                 int prazoEmMeses,
                 double taxaJurosAnual,
                 TipoAmortizacao tipoAmortizacao,
-                TipoImovel tipoImovel,
                 FinanciamentoStatus status
         ) {
             this.valorFinanciado = valorFinanciado;
             this.prazoEmMeses = prazoEmMeses;
             this.taxaJurosAnual = taxaJurosAnual;
             this.tipoAmortizacao = tipoAmortizacao;
-            this.tipoImovel = tipoImovel;
             this.status = FinanciamentoStatus.SOLICITADO;
         }
 
@@ -52,9 +49,6 @@ import java.model.FinanciamentoStatus;
             return this.tipoAmortizacao;
         }
 
-        public TipoImovel getTipoImovel() {
-            return this.tipoImovel;
-        }
 
         public FinanciamentoStatus getFinanciamentoStatus() {
             return this.status;

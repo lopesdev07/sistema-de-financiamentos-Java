@@ -7,7 +7,10 @@ CREATE TABLE financiamentos_imobiliarios (
     taxa_juros_anual DOUBLE NOT NULL,
     tipo_amortizacao VARCHAR(20) NOT NULL,
     tipo_imovel VARCHAR(20) NOT NULL,
-    status VARCHAR(20) NOT NULL DEFAULT 'SOLICITADO'
+    status VARCHAR(20) NOT NULL DEFAULT 'SOLICITADO',
+    user_id INT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+
 
 
     quartos INT,

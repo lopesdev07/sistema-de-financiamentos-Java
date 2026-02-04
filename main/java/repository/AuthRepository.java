@@ -10,7 +10,7 @@ import java.util.Optional;
 public class AuthRepository {
 
     public Optional<User> findByCpf(String cpf) throws SQLException { // Lógica para buscar o usuário no banco de dados pelo CPF
-        String sql = "SELECT login_cpf, senha_hash FROM users WHERE login_cpf = ?";
+        String sql = "SELECT user_id, login_cpf, senha_hash FROM users WHERE login_cpf = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)){
 
@@ -18,9 +18,10 @@ public class AuthRepository {
 
             try (ResultSet rs = stmt.executeQuery();) {
                 if (rs.next()) {
+                    int userId = rs.getInt("user_id");
                     String loginCPF = rs.getString("login_cpf");
                     String senhaHash = rs.getString("senha_hash");
-                    User user = new User(loginCPF, senhaHash);
+                    User user = new User(userId, loginCPF, senhaHash);
                     return Optional.of(user); // Retorna o usuário encontrado
                 }
         }}
