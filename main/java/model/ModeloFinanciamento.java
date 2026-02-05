@@ -1,6 +1,6 @@
 package main.java.model;
 
-import java.model.FinanciamentoStatus;
+
 
 /**
      * Representa o modelo inicial do contrato financeiro de um financiamento.
@@ -9,10 +9,10 @@ import java.model.FinanciamentoStatus;
      */
     public abstract class ModeloFinanciamento {
         ;
-        private final double valorFinanciado;
-        private final int prazoEmMeses;
-        private final double taxaJurosAnual; // Conceito anual, utilização em classes será mensal.
-        private final TipoAmortizacao tipoAmortizacao;
+        private double valorFinanciado;
+        private  int prazoEmMeses;
+        private double taxaJurosAnual; // Conceito anual, utilização em classes será mensal.
+        private TipoAmortizacao tipoAmortizacao;
         private FinanciamentoStatus status;
 
         public ModeloFinanciamento(
@@ -26,30 +26,45 @@ import java.model.FinanciamentoStatus;
             this.prazoEmMeses = prazoEmMeses;
             this.taxaJurosAnual = taxaJurosAnual;
             this.tipoAmortizacao = tipoAmortizacao;
-            this.status = FinanciamentoStatus.SOLICITADO;
+            this.status = status;
         }
 
-        public double getValorImovel() {
-            return this.valorImovel;
-        }
+    public ModeloFinanciamento() {
 
-        public double getValorFinanciado() {
+    }
+
+
+    public double getValorFinanciado() {
             return this.valorFinanciado;
         }
 
+        public void setValorFinanciado(double valorFinanciado) {
+            this.valorFinanciado = valorFinanciado;
+            }
+
         public int getPrazoEmMeses() {
             return this.prazoEmMeses;
+        }
+
+        public void setPrazoEmMeses(int prazoEmMeses) {
+            this.prazoEmMeses = prazoEmMeses;
         }
 
         public double getTaxaJurosAnual() {
             return this.taxaJurosAnual;
         }
 
+        public void setTaxaJurosAnual(double taxaJurosAnual) {
+            this.taxaJurosAnual = taxaJurosAnual;
+        }
+
         public TipoAmortizacao getTipoAmortizacao() {
             return this.tipoAmortizacao;
         }
 
-
+        public void setTipoAmortizacao(TipoAmortizacao tipoAmortizacao) {
+            this.tipoAmortizacao = tipoAmortizacao;
+        }
         public FinanciamentoStatus getFinanciamentoStatus() {
             return this.status;
         }

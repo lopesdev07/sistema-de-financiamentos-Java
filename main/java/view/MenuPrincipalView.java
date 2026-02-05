@@ -8,12 +8,6 @@ import java.util.Scanner;
  */
 public class MenuPrincipalView {
     private boolean opcaocerta = false;
-    
-
-    
-    public MenuPrincipalView() {
-        
-    }
     /** Exibe o menu principal para o usuário.
      *
      * @param scanner Scanner para leitura de entradas do usuário.

@@ -1,5 +1,8 @@
 package main.java.view;
 
+import main.java.model.*;
+
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class FinanciamentoImobiliarioView {
@@ -13,76 +16,83 @@ public class FinanciamentoImobiliarioView {
         int opcao = scanner.nextInt();
         scanner.nextLine();
         switch (opcao) {
-            case 1:
-                menuSimulacao(scanner);
-                break;
-            case 2:
-                menuGerenciamento(scanner);
-                break;
-            case 3:
-                break;
-            default:
-                System.out.println("Opção inválida. Tente novamente.");
+            case 1 -> menuSimulacao(scanner);
+            case 2 -> menuGerenciamento(scanner);
+            case 3 -> {}
+            default -> System.out.println("Opção inválida. Tente novamente.");
         }
     }
 
+    private void menuGerenciamento(Scanner scanner) {}
 
     private void menuSimulacao(Scanner scanner) {
-        System.out.println("Ao fazer uma simulação, você poderá ver diferentes cenários de financiamento com base nos seus dados.");
-        System.out.println("E caso decida prosseguir, poderá salvar a simulação como um financiamento real.");
-        System.out.println("Agora, decida o tipo de imóvel para o qual deseja simular o financiamento:");
-        System.out.println("1. Casa");
-        System.out.println("2. Apartamento");
-        System.out.println("3. Terreno");
-        int opcao = scanner.nextInt();
-        scanner.nextLine();
-        switch (opcao) {
-            case 1:
-                System.out.println("Iniciando simulação para Casa...");
-                simularFinanciamentoCasa(scanner);
-                break;
-            case 2:
-                System.out.println("Iniciando simulação para Apartamento...");
-                simularFinanciamentoApartamento(scanner);
-                break;
-            case 3: 
-                System.out.println("Iniciando simulação para Terreno...");
-                simularFinanciamentoTerreno(scanner);
-                break;
-            default:
-                System.out.println("Opção inválida. Tente novamente.");
+        System.out.println("Primeiro, escolha o tipo de imóvel para o qual deseja simular o financiamento:");
+        System.out.println("Agora, informe os detalhes do imóvel:");
+        criarFinanciamentoImobiliario(scanner);
+        }
+
+
+    public void criarFinanciamentoImobiliario(Scanner scanner) { // usar os dados no service
+        try {
+            TipoImovel tipoImovel = escolherTipoImovel(scanner);
+
+            System.out.print("Valor do imóvel: ");
+            double ValorImovel = scanner.nextDouble();
+
+            System.out.print("Valor de entrada: ");
+            double ValorEntrada = scanner.nextDouble();
+
+            scanner.nextLine();
+            System.out.print("Zoneamento: ");
+            String Zoneamento = scanner.nextLine();
+
+            if (tipoImovel == TipoImovel.CASA) {
+                System.out.print("Quantidade de quartos: ");
+                int quartos = scanner.nextInt();
+                System.out.print("Vagas de garagem: ");
+                int vagasGaragem = scanner.nextInt();
+                System.out.print("Área do terreno: ");
+                double AreaTerreno = scanner.nextDouble();
+            }
+
+            if (tipoImovel == TipoImovel.APARTAMENTO) {
+                System.out.print("Andar: ");
+                int setAndar = scanner.nextInt();
+                System.out.print("Tem elevador (true/false): ");
+                boolean setElevador = scanner.nextBoolean();
+                System.out.print("Valor do condomínio: ");
+                double valorCondominio = scanner.nextDouble();
+            }
+
+            if (tipoImovel == TipoImovel.TERRENO) {
+                System.out.print("Área do terreno: ");
+                double AreaTerreno = scanner.nextDouble();
+            }
+
+        } catch (InputMismatchException e) {
+            System.err.println("Valor inválido. Tente novamente.");
+            scanner.nextLine();
+        }
     }
 
-}
+    private TipoImovel escolherTipoImovel(Scanner scanner) {
+        System.out.println("1 - Casa");
+        System.out.println("2 - Apartamento");
+        System.out.println("3 - Terreno");
 
-    public FinanciamentoImobiliario criarFinanciamentoImobiliario(Scanner scanner) {
-        FinanciamentoImobiliario fin = new FinanciamentoImobiliario();
-        
+        int opcao = scanner.nextInt();
 
-        fin.setValorImovel(scanner.nextDouble());
-        fin.setValorEntrada(scanner.nextDouble());
-        fin.setAreaTerreno(scanner.nextDouble());
-        fin.setZoneamento(scanner.nextLine());
-
-        if (tipoImovel == TipoImovel.CASA) {
-            fin.setQuartos(scanner.nextInt());
-            fin.setVagasGaragem(scanner.nextInt());}
-
-        if (tipoImovel == TipoImovel.APARTAMENTO) {
-            fin.setAndar(scanner.nextInt());
-            fin.setElevador(scanner.nextBoolean());
-            fin.setValorCondominio(scanner.nextDouble());
-        }
-
-        if (tipoImovel == TipoImovel.TERRENO) {
-            fin.setAreaTerreno(scanner.nextDouble());
-        }
-        return fin;
-}
+        return switch (opcao) {
+            case 1 -> TipoImovel.CASA;
+            case 2 -> TipoImovel.APARTAMENTO;
+            case 3 -> TipoImovel.TERRENO;
+            default -> throw new IllegalArgumentException("Opção inválida");
+        };
+    }
 
     public void mostrarSimulacaoFinanciamentoImobiliario(FinanciamentoImobiliario fin) {
         System.out.println("Aqui estão os detalhes da sua simulação de financiamento imobiliário:");
         System.out.println(fin.toString());
-        
+
     }
 }

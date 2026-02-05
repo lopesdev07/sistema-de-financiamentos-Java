@@ -1,54 +1,25 @@
 package main.java.model;
 
-import java.model.FinanciamentoStatus;
-
 public class FinanciamentoImobiliario extends ModeloFinanciamento {
 
-    private final double valorImovel;
-    private final double valorEntrada;
-    private final TipoImovel tipoImovel;
-    private final int vagasGaragem; // Casa e apartamento
-    private final int quartos;
-    private final double areaTerreno;
-    private final int andar;
-    private final boolean elevador;
-    private final double valorCondominio;
-    private final String zoneamento;
-    private final CondicaoImovel condicaoImovel;
+    private Double valorImovel;
+    private Double valorEntrada;
+    private TipoImovel tipoImovel;
+    private Integer vagasGaragem; // Casa e apartamento
+    private Integer quartos;
+    private Double areaTerreno;
+    private Integer andar;
+    private Boolean elevador;
+    private Double valorCondominio;
+    private String zoneamento;
+    private CondicaoImovel condicaoImovel;
 
-
-
-    public FinanciamentoImobiliario(
-            double valorFinanciado,
-            int prazoEmMeses,
-            double taxaJurosAnual,
-            TipoAmortizacao tipoAmortizacao,
-            TipoImovel tipoImovel,
-            double valorImovel,
-            double valorEntrada,
-            int vagasGaragem,
-            int quartos,
-            double areaTerreno,
-            int andar,
-            boolean elevador,
-            double valorCondominio,
-            String zoneamento,
-            CondicaoImovel condicaoImovel,
-            FinanciamentoStatus status
-
-    ) {
+    public FinanciamentoImobiliario(double valorFinanciado, int prazoEmMeses, double taxaJurosAnual, TipoAmortizacao tipoAmortizacao, FinanciamentoStatus status) {
         super(valorFinanciado, prazoEmMeses, taxaJurosAnual, tipoAmortizacao, status);
-        this.valorImovel = valorImovel;
-        this.valorEntrada = valorEntrada;
-        this.tipoImovel = tipoImovel;
-        this.condicaoImovel = condicaoImovel;
-        this.vagasGaragem = vagasGaragem;
-        this.quartos = quartos;
-        this.areaTerreno = areaTerreno;
-        this.andar = andar;
-        this.elevador = elevador;
-        this.valorCondominio = valorCondominio;
-        this.zoneamento = zoneamento;
+    }
+
+    public FinanciamentoImobiliario() {
+        super();
     }
 
     public double getValorImovel() {
@@ -139,16 +110,14 @@ public class FinanciamentoImobiliario extends ModeloFinanciamento {
         this.zoneamento = zoneamento;
     }
 
-
-
-        @Override // Arrumar com entrada, valor do imóvel e tipo imovel
-        public String toString() { // toString pra cada imóvel será decidio nas views
-            return String.format(
+    @Override
+    public String toString() {
+        return String.format(
                 """
                 ===== FINANCIAMENTO IMOBILIÁRIO =====
                 Tipo de Imóvel: %s
                 Tipo de Amortização: %s
-
+    
                 --- Dados do Financiamento ---
                 Status do financiamento: %s
                 Valor Financiado: R$ %.2f
@@ -156,10 +125,9 @@ public class FinanciamentoImobiliario extends ModeloFinanciamento {
                 Taxa de Juros Anual: %.2f%%
                 Valor da Parcela: R$ %.2f
                 Valor Total Pago: R$ %.2f
-
+    
                 --- Dados do Imóvel ---
                 Quartos: %d
-                Vagas: %d
                 Vagas de Garagem: %d
                 Área do Terreno: %.2f m²
                 Andar: %d
@@ -183,8 +151,8 @@ public class FinanciamentoImobiliario extends ModeloFinanciamento {
                 getElevador() ? "Sim" : "Não",
                 getValorCondominio(),
                 getZoneamento()
-            );
-        }
+        );
+    }
 
     @Override
     public double calcularValorParcela() {
@@ -196,7 +164,3 @@ public class FinanciamentoImobiliario extends ModeloFinanciamento {
         return 0;
     }
 }
-
-
-
-

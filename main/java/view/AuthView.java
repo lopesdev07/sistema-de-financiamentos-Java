@@ -73,7 +73,7 @@ public class AuthView {
          // Retornar true se o login for bem-sucedido, false/nao alterar caso contrário
     }
 
-    public void telaRegistro(Scanner scanner) {
+    public void telaRegistro(Scanner scanner) { // Arrumar o USERID
         try {
             System.out.println("--- Tela de registro ---");
             System.out.println("Por favor, insira seu CPF e senha para se registrar.");
