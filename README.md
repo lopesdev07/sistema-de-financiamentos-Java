@@ -4,13 +4,13 @@
 
 **Descrição:** Aplicação de financiamentos desenvolvida em Java para prática em desenvolvimento backend. Implementa funções de adicionar e remover entidades por meio banco de dados em SQL utilizando JDBC. Utiliza hash/salt de senhas, injeção de dependências via construtor e migração para Maven. Projeto em versão BETA, com funcionalidades básicas e em constante evolução.
 
-## 📝 Changelog - v.1.0.1 BETA - PARTE 2 - 2026-01-28
+## 📝 Changelog - v.1.0.2 BETA - 2026-02-12 - VERSÃO NÃO UTILIZÁVEL EM PRODUÇÃO
 ### Ajustes e melhorias:
-- Reimaginação completa da lógica de financiamentos e imóveis
-- Logica de financiamentos e imoveis agora está mais robusta e realista
-- MODELS todos refeitos com adição de classes abstratas e enums novos
-- Remoção de todas as classes referentes a imóveis, tudo em relação a imóvel será tratado em uma só classe a partir desse patch
-- Reescrita do bando de dados para se adequar aos models novos
+- Sistema de Sessão básica contínua durante a execução do programa
+- Adição completa do sistema de registro e login
+- Correção enorme de lógicas em geral
+- Melhoria na estrutura de pastas e organização do código
+- Adição de mais validações e tratamento de exceções
 ---
 
 ## 🚀 Tecnologias Utilizadas
@@ -96,13 +96,11 @@ export DB_PASSWORD="sua_senha"**
 
 🛠 Próximos Passos:
 
-1:  Implementar mais utilidades para o usuário e para financiamentos
+1: Terminar a implementação do sistema novo em geral (services, views, repositories)
 
 2: Revisão da fatoração de instâncias de objetos de todos os packages
 
-3: Adicionar lógica de usuário (perfis, permissões, etc) e lógica de sessão
-
-4: Revisar e aumentar javadocs
+3: Atualizar README para inglês
 
 4: Implementar testes unitários
 

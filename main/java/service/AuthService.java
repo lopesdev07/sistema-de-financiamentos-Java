@@ -12,14 +12,13 @@ public class AuthService {
     }
 
     // Validar cpf antes de autenticar ou registrar
-    public void cpfIsValid(String cpf) throws InvalidCpfException { // Retornar true se o CPF for válido, false caso contrário
+    public void cpfIsValid(String cpf) throws InvalidCpfException {
         if (cpf == null || cpf.length() != 11 || !cpf.matches("\\d+")) {;
             throw new InvalidCpfException(cpf);
         }
     }
 
-    public void loginAuthenticate(String cpf, String plainPassword)
-            throws InvalidCpfException, AuthenticationFailedException, SQLException {
+    public void loginAuthenticate(String cpf, String plainPassword) throws InvalidCpfException, AuthenticationFailedException, SQLException {
 
         try {
             cpfIsValid(cpf);
@@ -39,9 +38,7 @@ public class AuthService {
         }
     }
 
-
-
-    // antes de registrar, validar cpf e checar se já existe
+    // Verificar se o cpf já existe antes de registrar
     public void checkAlreadyExists(String cpf) throws SQLException, CpfAlreadyExistsException {
         var userOpt2 = authRepository.findByCpf(cpf);
         if (userOpt2.isPresent()) {

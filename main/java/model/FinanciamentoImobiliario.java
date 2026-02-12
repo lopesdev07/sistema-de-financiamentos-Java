@@ -2,15 +2,15 @@ package main.java.model;
 
 public class FinanciamentoImobiliario extends ModeloFinanciamento {
 
-    private Double valorImovel;
-    private Double valorEntrada;
+    private double valorImovel;
+    private double valorEntrada;
     private TipoImovel tipoImovel;
-    private Integer vagasGaragem; // Casa e apartamento
-    private Integer quartos;
-    private Double areaTerreno;
-    private Integer andar;
-    private Boolean elevador;
-    private Double valorCondominio;
+    private int vagasGaragem; // Casa e apartamento
+    private int quartos;
+    private double areaTerreno;
+    private int andar;
+    private boolean elevador;
+    private double valorCondominio;
     private String zoneamento;
     private CondicaoImovel condicaoImovel;
 
@@ -123,8 +123,6 @@ public class FinanciamentoImobiliario extends ModeloFinanciamento {
                 Valor Financiado: R$ %.2f
                 Prazo: %d meses
                 Taxa de Juros Anual: %.2f%%
-                Valor da Parcela: R$ %.2f
-                Valor Total Pago: R$ %.2f
     
                 --- Dados do Imóvel ---
                 Quartos: %d
@@ -142,8 +140,6 @@ public class FinanciamentoImobiliario extends ModeloFinanciamento {
                 getValorFinanciado(),
                 getPrazoEmMeses(),
                 getTaxaJurosAnual(),
-                calcularValorParcela(),
-                calcularValorTotalPago(),
                 getQuartos(),
                 getVagasGaragem(),
                 getAreaTerreno(),
@@ -155,12 +151,7 @@ public class FinanciamentoImobiliario extends ModeloFinanciamento {
     }
 
     @Override
-    public double calcularValorParcela() {
-        return 0;
-    }
-
-    @Override
-    public double calcularValorTotalPago() {
-        return 0;
+    public int getPrazoEmMeses() {
+        return super.getPrazoEmMeses();
     }
 }

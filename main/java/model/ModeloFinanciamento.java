@@ -72,17 +72,6 @@ package main.java.model;
         public void setFinanciamentoStatus(FinanciamentoStatus status) {
             this.status = status;
         }
-
-        /**
-         * Calcula o valor da parcela mensal do financiamento.
-         */
-        public abstract double calcularValorParcela();
-
-        /**
-         * Calcula o valor total pago ao final do financiamento.
-         */
-        public abstract double calcularValorTotalPago();
-
 }
 
 
