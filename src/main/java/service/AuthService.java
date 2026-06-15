@@ -1,7 +1,8 @@
-package main.java.service;
+package service;
+
 import exceptions.*;
-import main.java.model.User;
-import main.java.repository.AuthRepository;
+import model.User;
+import repository.AuthRepository;
 import java.sql.SQLException;
 
 public class AuthService {
@@ -12,21 +13,24 @@ public class AuthService {
     }
 
     // Validar cpf antes de autenticar ou registrar
-    public void cpfIsValid(String cpf) throws InvalidCpfException {
-        if (cpf == null || cpf.length() != 11 || !cpf.matches("\\d+")) {;
-            throw new InvalidCpfException(cpf);
+    public boolean cpfIsValid(String cpf) {
+        if (cpf != null && cpf.length() == 11 && cpf.matches("\\d+")) {;
+            return true;
         }
+        return false;
     }
 
     public void loginAuthenticate(String cpf, String plainPassword) throws InvalidCpfException, AuthenticationFailedException, SQLException {
 
         try {
-            cpfIsValid(cpf);
+            if (!cpfIsValid(cpf)) {
+                throw new InvalidCpfException(cpf);
+            }
 
             var user = authRepository.findByCpf(cpf)
                     .orElseThrow(UserNotFoundInternalException::new);
 
-            if (!main.java.util.PasswordUtil.checkPassword(plainPassword, user.getSenhaHash())) {
+            if (!util.PasswordUtil.checkPassword(plainPassword, user.getSenhaHash())) {
                 throw new WrongPasswordInternalException();
             }
 
@@ -48,10 +52,12 @@ public class AuthService {
 
     // registrar usuario
     public void registerUser(String cpf, String plainPassword, User user ) throws SQLException, CpfAlreadyExistsException, InvalidCpfException { // Lógica para registrar um novo usuário
-        cpfIsValid(cpf);
+        if (!cpfIsValid(cpf)) {
+            throw new InvalidCpfException(cpf);
+        }
         checkAlreadyExists(cpf);
 
-        String hash = main.java.util.PasswordUtil.plainToHash(plainPassword);
+        String hash = util.PasswordUtil.plainToHash(plainPassword);
         user.setSenhaHash(hash);
 
         authRepository.saveUser(user);

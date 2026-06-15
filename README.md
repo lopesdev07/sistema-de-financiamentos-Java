@@ -1,109 +1,86 @@
 # sistema-de-financiamentos-Java
 
-# 📚 Sistema de financiamentos Java | v.1.0.1 BETA
+# Java financing system | v1.5 BETA - 2026-06-15
 
-**Descrição:** Aplicação de financiamentos desenvolvida em Java para prática em desenvolvimento backend. Implementa funções de adicionar e remover entidades por meio banco de dados em SQL utilizando JDBC. Utiliza hash/salt de senhas, injeção de dependências via construtor e migração para Maven. Projeto em versão BETA, com funcionalidades básicas e em constante evolução.
+**Description:** Financing application developed in Java for practice on backend development. Implements login/register logic, alongside with different types of financings (2.0 VER Exclusive) that can be manipulated through add, exclude and edit methods (excluding and editing are 2.0 VER Exclusive) and viewed so the user can analyze his own financing. All data are manipulated and stored in SQL/MySQL utilizing JDBC.
 
-## 📝 Changelog - v.1.0.2 BETA - 2026-02-12 - VERSÃO NÃO UTILIZÁVEL EM PRODUÇÃO
-### Ajustes e melhorias:
-- Sistema de Sessão básica contínua durante a execução do programa
-- Adição completa do sistema de registro e login
-- Correção enorme de lógicas em geral
-- Melhoria na estrutura de pastas e organização do código
-- Adição de mais validações e tratamento de exceções
+## Changelog - v1.5 - 2026-06-15
+### Upgrades and Fixes:
+- Better system architecture and code organization
+- Better register and login logic, with more validations and security measures
+- More validations and exception handling
+- More user-friendly console interface
+- Project structure more organized and modularized, with better separation of concerns
 ---
 
-## 🚀 Tecnologias Utilizadas
+## Utilized Technologies
 - Java 24
 - IDE: IntelliJ
-- Estrutura de dados: Permanência de dados em SQL por meio de JDBC
+- Data structure: Data persistence with MySQL and JDBC
 
 ---
 
-## 📂 Estrutura do Projeto
+## Project Structure
 **ProjetoFinanciamentos/**
 
-**Exceptions** → classes que criam exceções necessárias para o funcionamento correto do projeto
+**database** → schema.sql
 
-**Model** → classes que representam as entidades (Apartamento, Casa, Financiamento e Terreno
-
-**Repository** → armazenamento em arquivos TXT e parâmetros básicos
-
-**Service** → regras de negócio e validações.
-
-**View** → interação com o usuário via console (menus e mensagens).
-
-**Main** → ponto de entrada, que chama o menu principal pela View
+**java** → exceptions, model, repository, service, util, view, Main.java.
 
 ---
 
-## 🗄️ Banco de Dados
+## Data Bank
 
-Este projeto utiliza **MySQL** para persistência de dados.
+This project utilizes **MySQL** for data permanency.
 
-A estrutura do banco de dados está definida no arquivo:
+Data bank structure is defined in the file
 
 database/schema.sql
 
-### Como criar o banco
-1. Crie um banco vazio no MySQL
-2. Execute o script de criação das tabelas:
+### How to set up the Database
+1. Create a new database in MySQL with the name you prefer (e.g., projeto_financiamentos)
+2. Execute the following command in your terminal, replacing `your_user`, `database_name` and `schema.sql` with your MySQL username, the name of the database you created and the path to the schema.sql file, respectively:
 ```bash
-mysql -u seu_usuario -p nome_do_banco < main/database/schema.sql
+mysql -u your_user -p database_name < database/schema.sql
 ```
 
-## ▶️ Como Executar
-*--PONTO IMPORTANTE--*
-**Para que não haja versionamento de informações sensíveis, são utilizadas variáveis de ambiente**
+##  How to execute the project
+*-- Important --*
+**To avoid versioning sensitive information, environment variables are used.**
 
-Antes de executar o projeto, é **obrigatório** configurar as seguintes variáveis de ambiente:
+Before running the project, it's **obligatory** to configurate the following environment variables in your system:
 
 - `DB_URL`
 - `DB_USER`
 - `DB_PASSWORD`
-*OBRIGATORIO A REINICIALIZAÇÃO DA IDE OU DO TERMINAL PARA QUE AS MUDANÇAS ENTREM EM VIGOR*
+- 
+    *THE RESTART OF THE IDE OR THE TERMINAL IS OBLIGATORY FOR THE NECESSARY CHANGES*
 
-**COMO FAZER ISSO POR MEIO DE POWERSHELL/CMD (WINDOWS)**
+**HOW TO DO THIS FROM POWERSHELL/CMD (WINDOWS)**
 
 **setx DB_URL "jdbc:mysql://localhost:3306/projeto_financiamentos"
 setx DB_USER "root"
-setx DB_PASSWORD "sua_senha"**
+setx DB_PASSWORD "your_password"**
 
 **(LINUX / MAC)**
 
 **export DB_URL="jdbc:mysql://localhost:3306/projeto_financiamentos"
 export DB_USER="root"
-export DB_PASSWORD="sua_senha"**
+export DB_PASSWORD="your_password"**
 
-1. **Clone este repositório**
+1. **Clone this repository**
    ```bash
    git clone https://github.com/lopesdev07/sistema-de-financiamentos-Java
    ```
-2. **Abra o projeto**
-   Abra a pasta do projeto na sua IDE
-3. **Compilar e executar**
-   Localize na IDE o arquivo Main.java e dê **Run**
+2. **Open the project**
+   Open the project in your IDE (e.g., IntelliJ)
+3. **Compile and run**
+   Localize on the IDE the file Main.java and hit **Run**
 
 ---
 
-📌 **Funcionalidades**
+**Next steps for the project:**
 
-➕ Adicionar entidades 
+1: Finish the 2.0 VERSION of the project, adding more types of financings and finishing exclude and edit methods
 
-📋 Listar entidades
-
----
-
-🛠 Próximos Passos:
-
-1: Terminar a implementação do sistema novo em geral (services, views, repositories)
-
-2: Revisão da fatoração de instâncias de objetos de todos os packages
-
-3: Atualizar README para inglês
-
-4: Implementar testes unitários
-
-5: Revisar comentários e javadocs (caso seja necessário)
-
-6- Migração total do projeto para Spring Boot
+2: Total migration of the project to Spring Boot

@@ -1,4 +1,4 @@
-package main.java.model;
+package model;
 
 public enum FinanciamentoStatus {
     APROVADO,
@@ -6,6 +6,7 @@ public enum FinanciamentoStatus {
     QUITADO,
     CANCELADO,
     RECUSADO,
-    SIMULACAO
+    SIMULACAO,
+    SOLICITADO
 
 }

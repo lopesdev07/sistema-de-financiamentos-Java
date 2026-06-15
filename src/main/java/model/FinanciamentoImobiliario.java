@@ -1,4 +1,4 @@
-package main.java.model;
+package model;
 
 public class FinanciamentoImobiliario extends ModeloFinanciamento {
 
@@ -13,13 +13,11 @@ public class FinanciamentoImobiliario extends ModeloFinanciamento {
     private double valorCondominio;
     private String zoneamento;
     private CondicaoImovel condicaoImovel;
+    private double valorParcela;
+    private double valorTotalPago;
 
-    public FinanciamentoImobiliario(double valorFinanciado, int prazoEmMeses, double taxaJurosAnual, TipoAmortizacao tipoAmortizacao, FinanciamentoStatus status) {
-        super(valorFinanciado, prazoEmMeses, taxaJurosAnual, tipoAmortizacao, status);
-    }
-
-    public FinanciamentoImobiliario() {
-        super();
+    public FinanciamentoImobiliario(double valorFinanciado, int prazoEmMeses, double taxaJurosAnual, TipoAmortizacao tipoAmortizacao, FinanciamentoStatus status, int userId) {
+        super(valorFinanciado, prazoEmMeses, taxaJurosAnual, tipoAmortizacao, status, userId);
     }
 
     public double getValorImovel() {
@@ -110,11 +108,28 @@ public class FinanciamentoImobiliario extends ModeloFinanciamento {
         this.zoneamento = zoneamento;
     }
 
+    public void setValorParcela(double valorParcela) {
+        this.valorParcela = valorParcela;
+    }
+
+    public void setValorTotalPago(double valorTotalPago) {
+        this.valorTotalPago = valorTotalPago;
+    }
+
+    public double getValorParcela() {
+        return this.valorParcela;
+    }
+
+    public double getValorTotalPago() {
+        return this.valorTotalPago;
+    }
+
     @Override
     public String toString() {
         return String.format(
                 """
                 ===== FINANCIAMENTO IMOBILIÁRIO =====
+                ID do financiamento: %d
                 Tipo de Imóvel: %s
                 Tipo de Amortização: %s
     
@@ -134,6 +149,7 @@ public class FinanciamentoImobiliario extends ModeloFinanciamento {
                 Zoneamento: %s
                 ===================================
                 """,
+                getFinID(),
                 getTipoImovel(),
                 getTipoAmortizacao(),
                 getFinanciamentoStatus(),

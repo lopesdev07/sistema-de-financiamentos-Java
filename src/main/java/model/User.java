@@ -1,4 +1,4 @@
-package main.java.model;
+package model;
 
 public class User {
     private String loginCPF;
@@ -19,6 +19,9 @@ public class User {
     }
     public int getUserId() {
         return this.userId;
+    }
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public void setSenhaHash(String senhaHash) {

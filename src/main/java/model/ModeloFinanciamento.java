@@ -1,4 +1,4 @@
-package main.java.model;
+package model;
 
 
 
@@ -9,30 +9,29 @@ package main.java.model;
      */
     public abstract class ModeloFinanciamento {
         ;
+        private Integer finID;
         private double valorFinanciado;
         private  int prazoEmMeses;
-        private double taxaJurosAnual; // Conceito anual, utilização em classes será mensal.
+        private double taxaJurosAnual; // Conceito anual, utilização em classes mensal.
         private TipoAmortizacao tipoAmortizacao;
         private FinanciamentoStatus status;
+        protected int userId;
 
         public ModeloFinanciamento(
                 double valorFinanciado,
                 int prazoEmMeses,
                 double taxaJurosAnual,
                 TipoAmortizacao tipoAmortizacao,
-                FinanciamentoStatus status
+                FinanciamentoStatus status,
+                int userId
         ) {
             this.valorFinanciado = valorFinanciado;
             this.prazoEmMeses = prazoEmMeses;
             this.taxaJurosAnual = taxaJurosAnual;
             this.tipoAmortizacao = tipoAmortizacao;
             this.status = status;
+            this.userId = userId;
         }
-
-    public ModeloFinanciamento() {
-
-    }
-
 
     public double getValorFinanciado() {
             return this.valorFinanciado;
@@ -71,6 +70,22 @@ package main.java.model;
 
         public void setFinanciamentoStatus(FinanciamentoStatus status) {
             this.status = status;
+        }
+
+        public int getUserId() {
+            return this.userId;
+        }
+
+        public void setUserId(int userId) {
+            this.userId = userId;
+        }
+
+        public Integer getFinID() {
+            return this.finID;
+        }
+
+        public void setFinID(Integer finID) {
+            this.finID = finID;
         }
 }
 

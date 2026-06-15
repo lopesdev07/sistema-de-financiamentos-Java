@@ -1,5 +1,7 @@
-package main.java.view;
+package view;
 
+import repository.FinanciamentoImobiliarioRepository;
+import service.FinanciamentoImobiliarioService;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -16,6 +18,7 @@ public class MenuPrincipalView {
         while (!opcaocerta) {
 
             try {
+                FinanciamentoImobiliarioView menu = new FinanciamentoImobiliarioView(new FinanciamentoImobiliarioService(new FinanciamentoImobiliarioRepository()));
                 System.out.println("--- Menu Principal ---");
                 System.out.println("Bem vindo ao menu principal do Sistema de Financiamentos!");
                 System.out.println("Escolha a opção que determina qual tipo de financiamento deseja gerenciar: ");
@@ -26,10 +29,11 @@ public class MenuPrincipalView {
 
                 switch(scanner.nextInt()) {
                     case 1:
-                        casaView.menuCasa(scanner);
+                        menu.menuFinanciamentoImobiliario(scanner);
                         break;
                     case 2:
-                        
+                        System.out.println("Ainda não existem outros tipos de financiamento implementados. Por favor, escolha outra opção.");
+                        break;
                     case 3:
                         System.out.println("Saindo do sistema. Até mais!");
                         opcaocerta = true;

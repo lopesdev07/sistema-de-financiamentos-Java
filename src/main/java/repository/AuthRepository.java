@@ -1,10 +1,7 @@
-package main.java.repository;
+package repository;
 
-import main.java.model.User;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import model.User;
+import java.sql.*;
 import java.util.Optional;
 
 public class AuthRepository {
@@ -25,23 +22,29 @@ public class AuthRepository {
                     return Optional.of(user); // Retorna o usuário encontrado
                 }
         }}
-
         return Optional.empty(); // Retorna um Optional vazio se não encontrar
     }
 
-    public void saveUser (User user) throws SQLException { // Lógica para salvar um novo usuário no banco de dados
+    public int saveUser (User user) throws SQLException { // Lógica para salvar um novo usuário no banco de dados
         String sql = "INSERT INTO users (login_cpf, senha_hash) VALUES (?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             stmt.setString(1, user.getLoginCPF());
             stmt.setString(2, user.getSenhaHash());
-
             stmt.executeUpdate();
+            try (ResultSet rs = stmt.getGeneratedKeys()) {
+                if (rs.next()) {
+                    int generatedId = rs.getInt(1);
+                    user.setUserId(generatedId);
+                    return generatedId;
+                } else {
+                    throw new SQLException("Nenhuma chave gerada retornada.");
+                }
         }
     }
 
 
 
-}
+}}
 
