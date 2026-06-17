@@ -19,24 +19,25 @@ public class FinanciamentoImobiliarioRepository {
 
         String sql = """
                 INSERT INTO financiamentos_imobiliarios
-                (valor_financiado, prazo_meses, taxa_juros_anual, tipo_amortizacao, tipo_imovel, status, user_id, quartos, vagas_garagem, area_terreno, andar, elevador, valor_condominio, zoneamento) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)                """;
+                (valor_financiado, prazo_meses, taxa_juros_anual, tipo_amortizacao, tipo_imovel, status, user_id, quartos, vagas_garagem, area_terreno, andar, elevador, valor_condominio, zoneamento) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """;
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
 
-            stmt.setDouble(1, financiamento.getValorFinanciado());
+            stmt.setBigDecimal(1, financiamento.getValorFinanciado());
             stmt.setInt(2, financiamento.getPrazoEmMeses());
-            stmt.setDouble(3, financiamento.getTaxaJurosAnual());
+            stmt.setBigDecimal(3, financiamento.getTaxaJurosAnual());
             stmt.setString(4, financiamento.getTipoAmortizacao().name());
             stmt.setString(5, financiamento.getTipoImovel().name());
             stmt.setString(6, financiamento.getFinanciamentoStatus().name());
             stmt.setInt(7, financiamento.getUserId());
-            stmt.setInt(8, financiamento.getQuartos());
-            stmt.setInt(9, financiamento.getVagasGaragem());
-            stmt.setDouble(10, financiamento.getAreaTerreno());
-            stmt.setInt(11, financiamento.getAndar());
-            stmt.setBoolean(12, financiamento.getElevador());
-            stmt.setDouble(13, financiamento.getValorCondominio());
+            stmt.setObject(8, financiamento.getQuartos(), java.sql.Types.INTEGER);
+            stmt.setObject(9, financiamento.getVagasGaragem(), java.sql.Types.INTEGER);
+            stmt.setObject(10, financiamento.getAreaTerreno(), java.sql.Types.DECIMAL);
+            stmt.setObject(11, financiamento.getAndar(), java.sql.Types.INTEGER);
+            stmt.setObject(12, financiamento.getElevador(), java.sql.Types.BOOLEAN);
+            stmt.setObject(13, financiamento.getValorCondominio(), java.sql.Types.DECIMAL);
             stmt.setString(14, financiamento.getZoneamento());
 
             stmt.executeUpdate();
@@ -78,18 +79,14 @@ public class FinanciamentoImobiliarioRepository {
 
                     FinanciamentoImobiliario financiamento =
                             new FinanciamentoImobiliario(
-                                    rs.getDouble("valor_financiado"),
+                                    rs.getBigDecimal("valor_financiado"),
                                     rs.getInt("prazo_meses"),
-                                    rs.getDouble("taxa_juros_anual"),
-                                    TipoAmortizacao.valueOf(
-                                            rs.getString("tipo_amortizacao")
-                                    ),
-                                    FinanciamentoStatus.valueOf(
-                                            rs.getString("status")
-                                    ),
+                                    rs.getBigDecimal("taxa_juros_anual"),
+                                    TipoAmortizacao.valueOf(rs.getString("tipo_amortizacao")),
+                                    TipoImovel.valueOf(rs.getString("tipo_imovel")),
+                                    FinanciamentoStatus.valueOf(rs.getString("status")),
                                     Sessao.getUserId()
                             );
-                    financiamento.setTipoImovel(TipoImovel.valueOf(rs.getString("tipo_imovel")));
                     financiamento.setFinID(rs.getInt("id_financiamento"));
                     financiamentos.add(financiamento);
                 }
@@ -97,5 +94,56 @@ public class FinanciamentoImobiliarioRepository {
         }
 
         return financiamentos;
+    }
+    public FinanciamentoImobiliario buscarFinPorId(int idFinanciamento) throws SQLException {
+        String sql = """
+                SELECT valor_financiado,
+                prazo_meses,
+                taxa_juros_anual,
+                tipo_amortizacao,
+                tipo_imovel,
+                status,
+                quartos,
+                vagas_garagem,
+                area_terreno,
+                andar,
+                elevador,
+                valor_condominio,
+                zoneamento
+                FROM financiamentos_imobiliarios
+                WHERE id_financiamento = ?
+            """;
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, idFinanciamento);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    TipoImovel tipoImovel = TipoImovel.valueOf(rs.getString("tipo_imovel"));
+                    TipoAmortizacao tipoAmortizacao = TipoAmortizacao.valueOf(rs.getString("tipo_amortizacao"));
+                    FinanciamentoStatus status = FinanciamentoStatus.valueOf(rs.getString("status"));
+
+                    return new FinanciamentoImobiliario(
+                            rs.getBigDecimal("valor_financiado"),
+                            rs.getInt("prazo_meses"),
+                            rs.getBigDecimal("taxa_juros_anual"),
+                            tipoAmortizacao,
+                            tipoImovel,
+                            status,
+                            rs.getObject("quartos", Integer.class),
+                            rs.getObject("vagas_garagem", Integer.class),
+                            rs.getBigDecimal("area_terreno"),
+                            rs.getObject("andar", Integer.class),
+                            rs.getObject("elevador", Boolean.class),
+                            rs.getBigDecimal("valor_condominio"),
+                            rs.getString("zoneamento"),
+                            Sessao.getUserId()
+                    );
+                }
+            }
+        }
+        return null;
     }
 }

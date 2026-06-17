@@ -1,30 +1,59 @@
 package model;
 
+import java.math.BigDecimal;
+
 public class FinanciamentoImobiliario extends ModeloFinanciamento {
 
-    private double valorImovel;
-    private double valorEntrada;
+    private BigDecimal valorImovel;
+    private BigDecimal valorEntrada;
     private TipoImovel tipoImovel;
-    private int vagasGaragem; // Casa e apartamento
-    private int quartos;
-    private double areaTerreno;
-    private int andar;
-    private boolean elevador;
-    private double valorCondominio;
+    private Integer vagasGaragem; // Casa e apartamento
+    private Integer quartos;
+    private BigDecimal areaTerreno; // agora wrapper
+    private Integer andar;
+    private Boolean elevador;
+    private BigDecimal valorCondominio;
     private String zoneamento;
     private CondicaoImovel condicaoImovel;
-    private double valorParcela;
-    private double valorTotalPago;
 
-    public FinanciamentoImobiliario(double valorFinanciado, int prazoEmMeses, double taxaJurosAnual, TipoAmortizacao tipoAmortizacao, FinanciamentoStatus status, int userId) {
+
+    public FinanciamentoImobiliario(
+            BigDecimal valorFinanciado,
+            Integer prazoEmMeses,
+            BigDecimal taxaJurosAnual,
+            TipoAmortizacao tipoAmortizacao,
+            TipoImovel tipoImovel,
+            FinanciamentoStatus status,
+            Integer quartos,
+            Integer vagasGaragem,
+            BigDecimal areaTerreno,
+            Integer andar,
+            Boolean elevador,
+            BigDecimal valorCondominio,
+            String zoneamento,
+            int userId
+    ) {
         super(valorFinanciado, prazoEmMeses, taxaJurosAnual, tipoAmortizacao, status, userId);
+        this.tipoImovel = tipoImovel;
+        this.quartos = quartos;
+        this.vagasGaragem = vagasGaragem;
+        this.areaTerreno = areaTerreno;
+        this.andar = andar;
+        this.elevador = elevador;
+        this.valorCondominio = valorCondominio;
+        this.zoneamento = zoneamento;
     }
 
-    public double getValorImovel() {
+    public FinanciamentoImobiliario(BigDecimal valorFinanciado, int prazoMeses, BigDecimal taxaJurosAnual, TipoAmortizacao tipoAmortizacao, TipoImovel tipoImovel, FinanciamentoStatus status, Integer userId) {
+        super(valorFinanciado, prazoMeses, taxaJurosAnual, tipoAmortizacao, status, userId);
+    }
+
+
+    public BigDecimal getValorImovel() {
         return this.valorImovel;
     }
 
-    public double getValorEntrada() {
+    public BigDecimal getValorEntrada() {
         return this.valorEntrada;
     }
 
@@ -32,27 +61,27 @@ public class FinanciamentoImobiliario extends ModeloFinanciamento {
         return this.tipoImovel;
     }
 
-    public int getVagasGaragem() {
+    public Integer getVagasGaragem() {
         return this.vagasGaragem;
     }
 
-    public int getQuartos() {
+    public Integer getQuartos() {
         return this.quartos;
     }
 
-    public double getAreaTerreno() {
+    public BigDecimal getAreaTerreno() {
         return this.areaTerreno;
     }
 
-    public int getAndar() {
+    public Integer getAndar() {
         return this.andar;
     }
 
-    public boolean getElevador() {
+    public Boolean getElevador() {
         return this.elevador;
     }
 
-    public double getValorCondominio() {
+    public BigDecimal getValorCondominio() {
         return this.valorCondominio;
     }
 
@@ -64,11 +93,11 @@ public class FinanciamentoImobiliario extends ModeloFinanciamento {
         return this.condicaoImovel;
     }
 
-    public void setValorImovel(double valorImovel) {
+    public void setValorImovel(BigDecimal valorImovel) {
         this.valorImovel = valorImovel;
     }
 
-    public void setValorEntrada(double valorEntrada) {
+    public void setValorEntrada(BigDecimal valorEntrada) {
         this.valorEntrada = valorEntrada;
     }
 
@@ -80,27 +109,27 @@ public class FinanciamentoImobiliario extends ModeloFinanciamento {
         this.condicaoImovel = condicaoImovel;
     }
 
-    public void setVagasGaragem(int vagasGaragem) {
+    public void setVagasGaragem(Integer vagasGaragem) {
         this.vagasGaragem = vagasGaragem;
     }
 
-    public void setQuartos(int quartos) {
+    public void setQuartos(Integer quartos) {
         this.quartos = quartos;
     }
 
-    public void setAreaTerreno(double areaTerreno) {
+    public void setAreaTerreno(BigDecimal areaTerreno) {
         this.areaTerreno = areaTerreno;
     }
 
-    public void setAndar(int andar) {
+    public void setAndar(Integer andar) {
         this.andar = andar;
     }
 
-    public void setElevador(boolean elevador) {
+    public void setElevador(Boolean elevador) {
         this.elevador = elevador;
     }
 
-    public void setValorCondominio(double valorCondominio) {
+    public void setValorCondominio(BigDecimal valorCondominio) {
         this.valorCondominio = valorCondominio;
     }
 
@@ -108,66 +137,48 @@ public class FinanciamentoImobiliario extends ModeloFinanciamento {
         this.zoneamento = zoneamento;
     }
 
-    public void setValorParcela(double valorParcela) {
-        this.valorParcela = valorParcela;
-    }
 
-    public void setValorTotalPago(double valorTotalPago) {
-        this.valorTotalPago = valorTotalPago;
-    }
-
-    public double getValorParcela() {
-        return this.valorParcela;
-    }
-
-    public double getValorTotalPago() {
-        return this.valorTotalPago;
-    }
 
     @Override
     public String toString() {
         return String.format(
-                """
-                ===== FINANCIAMENTO IMOBILIÁRIO =====
-                ID do financiamento: %d
-                Tipo de Imóvel: %s
-                Tipo de Amortização: %s
-    
-                --- Dados do Financiamento ---
-                Status do financiamento: %s
-                Valor Financiado: R$ %.2f
-                Prazo: %d meses
-                Taxa de Juros Anual: %.2f%%
-    
-                --- Dados do Imóvel ---
-                Quartos: %d
-                Vagas de Garagem: %d
-                Área do Terreno: %.2f m²
-                Andar: %d
-                Elevador: %s
-                Valor do Condomínio: R$ %.2f
-                Zoneamento: %s
-                ===================================
-                """,
+                "===== FINANCIAMENTO IMOBILIÁRIO =====%n" +
+                        "ID do financiamento: %d%n" +
+                        "Tipo de Imóvel: %s%n" +
+                        "Tipo de Amortização: %s%n%n" +
+                        "--- Dados do Financiamento ---%n" +
+                        "Status do financiamento: %s%n" +
+                        "Valor Financiado: R$ %.2f%n" +
+                        "Prazo: %d meses%n" +
+                        "Taxa de Juros Anual: %.2f%%%n%n" +
+                        "--- Dados do Imóvel ---%n" +
+                        "Quartos: %d%n" +
+                        "Vagas de Garagem: %d%n" +
+                        "Área do Terreno: %.2f m²%n" +
+                        "Andar: %d%n" +
+                        "Elevador: %s%n" +
+                        "Valor do Condomínio: R$ %.2f%n" +
+                        "Zoneamento: %s%n" +
+                        "===================================%n",
                 getFinID(),
                 getTipoImovel(),
                 getTipoAmortizacao(),
                 getFinanciamentoStatus(),
-                getValorFinanciado(),
+                (getValorFinanciado() != null ? getValorFinanciado().doubleValue() : 0.0),
                 getPrazoEmMeses(),
-                getTaxaJurosAnual(),
-                getQuartos(),
-                getVagasGaragem(),
-                getAreaTerreno(),
-                getAndar(),
-                getElevador() ? "Sim" : "Não",
-                getValorCondominio(),
+                (getTaxaJurosAnual() != null ? getTaxaJurosAnual().doubleValue() : 0.0),
+                (getQuartos() != null ? getQuartos() : 0),
+                (getVagasGaragem() != null ? getVagasGaragem() : 0),
+                (getAreaTerreno() != null ? getAreaTerreno().doubleValue() : 0.0),
+                (getAndar() != null ? getAndar() : 0),
+                (getElevador() != null && getElevador()) ? "Sim" : "Não",
+                (getValorCondominio() != null ? getValorCondominio().doubleValue() : 0.0),
                 getZoneamento()
         );
     }
 
     @Override
-    public int getPrazoEmMeses() {
+    public Integer getPrazoEmMeses() {
         return super.getPrazoEmMeses();
     }
 }

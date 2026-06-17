@@ -45,7 +45,7 @@ public class FinanciamentoImobiliarioView {
         scanner.nextLine();
         switch (opcao) {
             case 1 -> visualizarFinanciamentoImobiliario();
-            case 2 -> System.out.println("Funcionalidade de edição ainda não implementada."); // WIP
+            case 2 -> menuEditarFinanciamentoImobiliario();
             case 3 -> System.out.println("Funcionalidade de exclusão ainda não implementada."); // WIP
             default -> System.out.println("Opção inválida. Tente novamente.");
         }
@@ -88,6 +88,17 @@ public class FinanciamentoImobiliarioView {
            System.out.println("Erro genérico ao acessar o banco de dados. Tente novamente.");
         }
 
+    }
+
+    private void menuEditarFinanciamentoImobiliario(Scanner scanner) {
+        try { System.out.println("Aqui você pode editar seus financiamento salvos por meio de seus IDs.");
+            System.out.println("Para verificar o ID de qualquer financiamento, por favor, utilize a opção de visualizar financiamentos salvos no menu de gerenciamento.");
+            System.out.println("Digite o ID do financiamento que deseja editar: ");
+            int idScan = scanner.nextInt();
+            scanner.nextLine();
+
+        }
+        catch () {}
     }
 
     private void menuSimulacao(Scanner scanner) {

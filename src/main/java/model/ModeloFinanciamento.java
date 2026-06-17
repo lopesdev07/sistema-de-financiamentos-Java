@@ -1,6 +1,7 @@
 package model;
 
 
+import java.math.BigDecimal;
 
 /**
      * Representa o modelo inicial do contrato financeiro de um financiamento.
@@ -10,17 +11,17 @@ package model;
     public abstract class ModeloFinanciamento {
         ;
         private Integer finID;
-        private double valorFinanciado;
-        private  int prazoEmMeses;
-        private double taxaJurosAnual; // Conceito anual, utilização em classes mensal.
+        private BigDecimal valorFinanciado;
+        private Integer prazoEmMeses;
+        private BigDecimal taxaJurosAnual; // Conceito anual, utilização em classes mensal.
         private TipoAmortizacao tipoAmortizacao;
         private FinanciamentoStatus status;
         protected int userId;
 
         public ModeloFinanciamento(
-                double valorFinanciado,
-                int prazoEmMeses,
-                double taxaJurosAnual,
+                BigDecimal valorFinanciado,
+                Integer prazoEmMeses,
+                BigDecimal taxaJurosAnual,
                 TipoAmortizacao tipoAmortizacao,
                 FinanciamentoStatus status,
                 int userId
@@ -33,15 +34,15 @@ package model;
             this.userId = userId;
         }
 
-    public double getValorFinanciado() {
+    public BigDecimal getValorFinanciado() {
             return this.valorFinanciado;
         }
 
-        public void setValorFinanciado(double valorFinanciado) {
+        public void setValorFinanciado(BigDecimal valorFinanciado) {
             this.valorFinanciado = valorFinanciado;
             }
 
-        public int getPrazoEmMeses() {
+        public Integer getPrazoEmMeses() {
             return this.prazoEmMeses;
         }
 
@@ -49,11 +50,11 @@ package model;
             this.prazoEmMeses = prazoEmMeses;
         }
 
-        public double getTaxaJurosAnual() {
+        public BigDecimal getTaxaJurosAnual() {
             return this.taxaJurosAnual;
         }
 
-        public void setTaxaJurosAnual(double taxaJurosAnual) {
+        public void setTaxaJurosAnual(BigDecimal taxaJurosAnual) {
             this.taxaJurosAnual = taxaJurosAnual;
         }
 

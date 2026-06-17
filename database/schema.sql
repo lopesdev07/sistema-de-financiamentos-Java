@@ -19,7 +19,6 @@ CREATE TABLE financiamentos_imobiliarios (
     FOREIGN KEY (user_id) REFERENCES users(user_id),
 
     quartos INT,
-    vagas INT,
     vagas_garagem INT,
     area_terreno DOUBLE,
     andar INT,
@@ -27,4 +26,3 @@ CREATE TABLE financiamentos_imobiliarios (
     valor_condominio DOUBLE,
     zoneamento VARCHAR(100)
 );
-
