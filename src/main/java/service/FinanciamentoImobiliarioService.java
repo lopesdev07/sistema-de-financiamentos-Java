@@ -1,5 +1,8 @@
 package service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 import exceptions.EntradaMaiorQueValorDoImovelException;
 import exceptions.NenhumFinanciamentoEncontradoException;
 import model.*;
@@ -18,20 +21,14 @@ public class FinanciamentoImobiliarioService {
         this.repository = repository;
     }
 
-    private void validarEntrada(double valorEntrada, double valorImovel)
-            throws EntradaMaiorQueValorDoImovelException {
+    private void validarDados(BigDecimal valorEntrada, BigDecimal valorImovel, int prazoEmMeses,
+                              CondicaoImovel condicaoImovel, TipoAmortizacao tipoAmortizacao, TipoImovel tipoImovel) {
 
-        if (valorEntrada > valorImovel) {
-            throw new EntradaMaiorQueValorDoImovelException();
-        }
-    }
-
-    private void validarDados(double valorEntrada, double valorImovel, int prazoEmMeses, CondicaoImovel condicaoImovel, TipoAmortizacao tipoAmortizacao, TipoImovel tipoImovel) {
-
-        if (valorEntrada < 0 || valorImovel <= 0 || prazoEmMeses <= 0) {
+        if (valorEntrada.compareTo(BigDecimal.ZERO) < 0
+                || valorImovel.compareTo(BigDecimal.ZERO) <= 0
+                || prazoEmMeses <= 0) {
             throw new IllegalArgumentException("Valores devem ser positivos.");
         }
-
         if (condicaoImovel == null)
             throw new IllegalArgumentException("Condição do imóvel obrigatória.");
 
@@ -42,23 +39,38 @@ public class FinanciamentoImobiliarioService {
             throw new IllegalArgumentException("Tipo de imóvel obrigatório.");
     }
 
-    public void simularFinanciamento(double valorImovel, double valorEntrada, int prazoEmMeses, CondicaoImovel condicaoImovel, TipoAmortizacao tipoAmortizacao, TipoImovel tipoImovel, int vagasGaragem, int quartos, double areaTerreno, int andar, boolean elevador, double valorCondominio, String zoneamento) throws EntradaMaiorQueValorDoImovelException, IllegalArgumentException {
+    private void validarEntrada(BigDecimal valorEntrada, BigDecimal valorImovel)
+            throws EntradaMaiorQueValorDoImovelException {
+
+        if (valorEntrada.compareTo(valorImovel) > 0) {
+            throw new EntradaMaiorQueValorDoImovelException();
+        }
+    }
+
+    public void simularFinanciamento(BigDecimal valorImovel, BigDecimal valorEntrada, int prazoEmMeses,
+                                     CondicaoImovel condicaoImovel, TipoAmortizacao tipoAmortizacao, TipoImovel tipoImovel,
+                                     Integer vagasGaragem, Integer quartos, BigDecimal areaTerreno,
+                                     Integer andar, Boolean elevador, BigDecimal valorCondominio, String zoneamento)
+            throws EntradaMaiorQueValorDoImovelException {
 
         if (!Sessao.isLogado()) {
             throw new IllegalStateException("Usuário não autenticado.");
         }
 
         validarDados(valorEntrada, valorImovel, prazoEmMeses, condicaoImovel, tipoAmortizacao, tipoImovel);
-
         validarEntrada(valorEntrada, valorImovel);
 
-        double valorFinanciado = valorImovel - valorEntrada;
+        BigDecimal valorFinanciado = valorImovel.subtract(valorEntrada);
 
-        double taxaJuros = (condicaoImovel == CondicaoImovel.USADO) ? 7.0 : 5.0;
+        BigDecimal taxaJuros = (condicaoImovel == CondicaoImovel.USADO)
+                ? new BigDecimal("7.0")
+                : new BigDecimal("5.0");
 
-        FinanciamentoStatus status = valorFinanciado > 0 ? FinanciamentoStatus.APROVADO : FinanciamentoStatus.RECUSADO;
+        FinanciamentoStatus status = valorFinanciado.compareTo(BigDecimal.ZERO) > 0
+                ? FinanciamentoStatus.APROVADO
+                : FinanciamentoStatus.RECUSADO;
 
-        financiamentoAtual = new FinanciamentoImobiliario(valorFinanciado, prazoEmMeses, taxaJuros, tipoAmortizacao, status, 0);
+        financiamentoAtual = new FinanciamentoImobiliario(valorFinanciado, prazoEmMeses, taxaJuros, tipoAmortizacao, tipoImovel, status, 0);
 
         financiamentoAtual.setUserId(Sessao.getUserId());
         financiamentoAtual.setVagasGaragem(vagasGaragem);
@@ -73,35 +85,43 @@ public class FinanciamentoImobiliarioService {
         financiamentoAtual.setCondicaoImovel(condicaoImovel);
         financiamentoAtual.setTipoImovel(tipoImovel);
 
-             calcularParcelas(financiamentoAtual);
+        calcularParcelas(financiamentoAtual);
     }
 
     private void calcularParcelas(FinanciamentoImobiliario financiamento) {
 
-        double saldoDevedor = financiamento.getValorFinanciado();
+        BigDecimal saldoDevedor = financiamento.getValorFinanciado();
         int parcelas = financiamento.getPrazoEmMeses();
-        double taxaJurosMensal =
-                (financiamento.getTaxaJurosAnual() / 100) / 12;
+        BigDecimal taxaJurosMensal = financiamento.getTaxaJurosAnual()
+                .divide(BigDecimal.valueOf(100), 10, RoundingMode.HALF_UP)
+                .divide(BigDecimal.valueOf(12), 10, RoundingMode.HALF_UP);
 
-        double valorTotalPago = 0;
-        double valorParcela = 0;
+        BigDecimal valorTotalPago = BigDecimal.ZERO;
+        BigDecimal valorParcela = BigDecimal.ZERO;
 
         if (financiamento.getTipoAmortizacao() == TipoAmortizacao.SAC) {
 
-            double amortizacao = saldoDevedor / parcelas;
+            BigDecimal amortizacao = saldoDevedor
+                    .divide(BigDecimal.valueOf(parcelas), 10, RoundingMode.HALF_UP);
 
             for (int i = 0; i < parcelas; i++) {
-                double juros = saldoDevedor * taxaJurosMensal;
-                valorParcela = amortizacao + juros;
-                valorTotalPago += valorParcela;
-                saldoDevedor -= amortizacao;
+                BigDecimal juros = saldoDevedor.multiply(taxaJurosMensal);
+                valorParcela = amortizacao.add(juros);
+                valorTotalPago = valorTotalPago.add(valorParcela);
+                saldoDevedor = saldoDevedor.subtract(amortizacao);
             }
 
         } else if (financiamento.getTipoAmortizacao() == TipoAmortizacao.PRICE) {
 
-            valorParcela = saldoDevedor * (taxaJurosMensal / (1 - Math.pow(1 + taxaJurosMensal, -parcelas)));
+            BigDecimal fator = BigDecimal.ONE.add(taxaJurosMensal).pow(parcelas);
 
-            valorTotalPago = valorParcela * parcelas;
+            BigDecimal numerador = taxaJurosMensal.multiply(fator);
+            BigDecimal denominador = fator.subtract(BigDecimal.ONE);
+
+            valorParcela = saldoDevedor.multiply(
+                    numerador.divide(denominador, 10, RoundingMode.HALF_UP));
+
+            valorTotalPago = valorParcela.multiply(BigDecimal.valueOf(parcelas));
         }
 
         financiamento.setValorParcela(valorParcela);
@@ -113,7 +133,9 @@ public class FinanciamentoImobiliarioService {
     }
 
     public void salvarFinanciamentoAtual() throws SQLException {
-
+        if (!Sessao.isLogado()) {
+            throw new IllegalStateException("Usuário não autenticado.");
+        }
         if (financiamentoAtual == null) {
             throw new IllegalStateException("Nenhuma simulação para salvar.");
         }
@@ -122,6 +144,60 @@ public class FinanciamentoImobiliarioService {
 
         financiamentoAtual = null;
     }
+    public void editarFinanciamento(FinanciamentoImobiliario financiamento, BigDecimal valorEntrada, BigDecimal valorImovel, int prazoEmMeses, CondicaoImovel condicaoImovel, TipoAmortizacao tipoAmortizacao, TipoImovel tipoImovel) throws SQLException, EntradaMaiorQueValorDoImovelException {
+        if (!Sessao.isLogado()) {
+            throw new IllegalStateException("Usuário não autenticado.");
+        }
+        if (Sessao.getUserId() == null || financiamento == null || financiamento.getFinID() == null || financiamento.getTipoImovel() == null) {
+            throw new IllegalArgumentException("Financiamento inválido para edição.");
+        }
+        if (financiamento.getUserId() != (Sessao.getUserId())) {
+            throw new IllegalStateException("Usuário não autorizado a editar este financiamento.");
+        }
+        // pós criação, antes de salvar
+        normalizarObjetoPorTipoImovel(financiamento);
+        verificarObjetoPorTipoImovel(financiamento);
+        validarDados(valorEntrada, valorImovel, prazoEmMeses, condicaoImovel, tipoAmortizacao, tipoImovel);
+        validarEntrada(valorEntrada, valorImovel);
+
+        repository.editarFinanciamento(financiamento);
+    }
+
+    public void verificarObjetoPorTipoImovel(FinanciamentoImobiliario financiamento) {
+        if (financiamento.getTipoImovel() == TipoImovel.CASA) {
+            if (financiamento.getVagasGaragem() == null || financiamento.getAndar() != null ||
+                    financiamento.getElevador() != null || financiamento.getValorCondominio() != null) {
+                throw new IllegalArgumentException("Dados inválidos para tipo de imóvel CASA.");
+            }
+        } else if (financiamento.getTipoImovel() == TipoImovel.APARTAMENTO) {
+            if (financiamento.getAreaTerreno() != null) {
+                throw new IllegalArgumentException("Dados inválidos para tipo de imóvel APARTAMENTO.");
+            }
+        }
+        else if (financiamento.getTipoImovel() == TipoImovel.TERRENO) {
+            if (financiamento.getVagasGaragem() != null || financiamento.getAndar() != null ||
+                    financiamento.getElevador() != null || financiamento.getValorCondominio() != null ||
+                    financiamento.getQuartos() != null) {
+                throw new IllegalArgumentException("Dados inválidos para tipo de imóvel TERRENO.");
+            }
+        }
+    }
+
+    public void normalizarObjetoPorTipoImovel(FinanciamentoImobiliario financiamento) {
+        if (financiamento.getTipoImovel() == TipoImovel.CASA) {
+            financiamento.setAndar(null);
+            financiamento.setElevador(null);
+            financiamento.setValorCondominio(null);
+        } else if (financiamento.getTipoImovel() == TipoImovel.APARTAMENTO) {
+            financiamento.setAreaTerreno(null);
+        }
+        else if (financiamento.getTipoImovel() == TipoImovel.TERRENO) {
+            financiamento.setVagasGaragem(null);
+            financiamento.setAndar(null);
+            financiamento.setElevador(null);
+            financiamento.setValorCondominio(null);
+            financiamento.setQuartos(null);
+    }}
     public List<FinanciamentoImobiliario> visualizarFinanciamentos() throws SQLException, NenhumFinanciamentoEncontradoException {
         List<FinanciamentoImobiliario> financiamentos = repository.buscarFinanciamentosPorUsuario();
         if (financiamentos.isEmpty()) {

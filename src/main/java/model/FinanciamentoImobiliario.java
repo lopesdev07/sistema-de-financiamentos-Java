@@ -15,6 +15,8 @@ public class FinanciamentoImobiliario extends ModeloFinanciamento {
     private BigDecimal valorCondominio;
     private String zoneamento;
     private CondicaoImovel condicaoImovel;
+    private BigDecimal valorParcela;
+    private BigDecimal valorTotalPago;
 
 
     public FinanciamentoImobiliario(
@@ -44,8 +46,9 @@ public class FinanciamentoImobiliario extends ModeloFinanciamento {
         this.zoneamento = zoneamento;
     }
 
-    public FinanciamentoImobiliario(BigDecimal valorFinanciado, int prazoMeses, BigDecimal taxaJurosAnual, TipoAmortizacao tipoAmortizacao, TipoImovel tipoImovel, FinanciamentoStatus status, Integer userId) {
-        super(valorFinanciado, prazoMeses, taxaJurosAnual, tipoAmortizacao, status, userId);
+    public FinanciamentoImobiliario(BigDecimal valorFinanciado, int prazoEmMeses, BigDecimal taxaJurosAnual, TipoAmortizacao tipoAmortizacao, TipoImovel tipoImovel, FinanciamentoStatus status, Integer userId) {
+        super(valorFinanciado, prazoEmMeses, taxaJurosAnual, tipoAmortizacao, status, userId);
+        this.tipoImovel = tipoImovel;
     }
 
 
@@ -180,5 +183,13 @@ public class FinanciamentoImobiliario extends ModeloFinanciamento {
     @Override
     public Integer getPrazoEmMeses() {
         return super.getPrazoEmMeses();
+    }
+
+    public void setValorParcela(BigDecimal valorParcela) {
+        this.valorParcela = valorParcela;
+    }
+
+    public void setValorTotalPago(BigDecimal valorTotalPago) {
+        this.valorTotalPago = valorTotalPago;
     }
 }

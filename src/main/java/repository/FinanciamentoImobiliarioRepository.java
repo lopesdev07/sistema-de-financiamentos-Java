@@ -146,4 +146,50 @@ public class FinanciamentoImobiliarioRepository {
         }
         return null;
     }
+    public FinanciamentoImobiliario editarFinanciamento(FinanciamentoImobiliario financiamento) throws SQLException {
+        String sql = """
+                UPDATE financiamentos_imobiliarios
+                SET valor_financiado = ?,
+                    prazo_meses = ?,
+                    taxa_juros_anual = ?,
+                    tipo_amortizacao = ?,
+                    tipo_imovel = ?,
+                    status = ?,
+                    quartos = ?,
+                    vagas_garagem = ?,
+                    area_terreno = ?,
+                    andar = ?,
+                    elevador = ?,
+                    valor_condominio = ?,
+                    zoneamento = ?
+                WHERE id_financiamento = ?
+            """;
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setBigDecimal(1, financiamento.getValorFinanciado());
+            stmt.setInt(2, financiamento.getPrazoEmMeses());
+            stmt.setBigDecimal(3, financiamento.getTaxaJurosAnual());
+            stmt.setString(4, financiamento.getTipoAmortizacao().name());
+            stmt.setString(5, financiamento.getTipoImovel().name());
+            stmt.setString(6, financiamento.getFinanciamentoStatus().name());
+            stmt.setObject(7, financiamento.getQuartos(), java.sql.Types.INTEGER);
+            stmt.setObject(8, financiamento.getVagasGaragem(), java.sql.Types.INTEGER);
+            stmt.setObject(9, financiamento.getAreaTerreno(), java.sql.Types.DECIMAL);
+            stmt.setObject(10, financiamento.getAndar(), java.sql.Types.INTEGER);
+            stmt.setObject(11, financiamento.getElevador(), java.sql.Types.BOOLEAN);
+            stmt.setObject(12, financiamento.getValorCondominio(), java.sql.Types.DECIMAL);
+            stmt.setString(13, financiamento.getZoneamento());
+            stmt.setInt(14, financiamento.getFinID());
+
+            int rowsUpdated = stmt.executeUpdate();
+            if (rowsUpdated > 0) {
+                return financiamento;
+            } else {
+                throw new SQLException("Nenhum registro atualizado. Verifique o ID do financiamento.");
+            }
+        }
+    }
+
 }
