@@ -21,6 +21,24 @@ public class FinanciamentoImobiliarioService {
         this.repository = repository;
     }
 
+    public FinanciamentoImobiliario buscarFinanciamentoPorId(int idFinanciamento) throws SQLException {
+        FinanciamentoImobiliario financiamento = repository.buscarFinPorId(idFinanciamento);
+
+        if (financiamento == null) {
+            throw new IllegalArgumentException("Financiamento não encontrado.");
+        }
+
+        if (financiamento.getFinID() == null) {
+            throw new IllegalArgumentException("Financiamento inválido.");
+        }
+
+        if (financiamento.getUserId() != Sessao.getUserId()) {
+            throw new IllegalStateException("Usuário não autorizado a visualizar este financiamento.");
+        }
+
+        return financiamento;
+    }
+
     private void validarDados(BigDecimal valorEntrada, BigDecimal valorImovel, int prazoEmMeses,
                               CondicaoImovel condicaoImovel, TipoAmortizacao tipoAmortizacao, TipoImovel tipoImovel) {
 

@@ -17,7 +17,7 @@ public class FinanciamentoImobiliarioView {
         this.service = service;
     }
 
-    public void menuFinanciamentoImobiliario(Scanner scanner) {
+    public void menuFinanciamentoImobiliario(Scanner scanner) throws SQLException {
         System.out.println("Este é o menu de Financiamento Imobiliário.");
         System.out.println("Coloque o número correspondente a ação que deseja realizar:");
         System.out.println("1. Simular Financiamento");
@@ -34,20 +34,20 @@ public class FinanciamentoImobiliarioView {
         }
     }
 
-    private void menuGerenciamento(Scanner scanner) {
+    private void menuGerenciamento(Scanner scanner) throws SQLException {
         System.out.println("Este é o menu de gerenciamento de financiamentos imobiliários.");
         System.out.println("Aqui você pode visualizar, editar ou excluir suas simulações de financiamento imobiliário salvas.");
         System.out.println("Coloque o número correspondente à ação que deseja realizar:");
         System.out.println("1. Visualizar financiamentos salvos");
         System.out.println("2. Editar financiamentos salvos");
-        System.out.println("3. Excluir financiamentos salvos");
+        System.out.println("3. Detalhar financiamento específico");
         System.out.print("Escolha o que deseja fazer: ");
         int opcao = scanner.nextInt();
         scanner.nextLine();
         switch (opcao) {
             case 1 -> visualizarFinanciamentoImobiliario();
             case 2 -> menuEditarFinanciamentoImobiliario(scanner); // scanner adicionado
-            case 3 -> System.out.println("Funcionalidade de exclusão ainda não implementada.");
+            case 3 -> detalhesFinanciamentoImobiliario(scanner);
             default -> System.out.println("Opção inválida. Tente novamente.");
         }
     }
@@ -90,16 +90,47 @@ public class FinanciamentoImobiliarioView {
             System.out.println("Aqui você pode editar seus financiamentos salvos por meio de seus IDs.");
             System.out.println("Para verificar o ID de qualquer financiamento, utilize a opção de visualizar financiamentos salvos.");
             System.out.print("Digite o ID do financiamento que deseja editar: ");
-            int idScan = scanner.nextInt();
-            scanner.nextLine();
 
-            // WIP: service.editarFinanciamento(idScan, ...)
+            // detalhesFinanciamentoImobiliario...
+            // WIP: service.editarFinanciamento
 
         } catch (InputMismatchException e) {
             System.out.println("ID inválido. Digite apenas números inteiros.");
             scanner.nextLine();
         }
     }
+
+    private void detalhesFinanciamentoImobiliario(Scanner scanner) throws SQLException {
+            try {
+            System.out.print("Digite o ID do financiamento que deseja ver detalhes: ");
+            int idFinanciamento = scanner.nextInt();
+            scanner.nextLine();
+            FinanciamentoImobiliario financiamento = service.buscarFinanciamentoPorId(idFinanciamento);
+            System.out.println("===== DETALHES DO FINANCIAMENTO =====");
+            System.out.printf("ID do financiamento: %d%n", financiamento.getFinID());
+            System.out.printf("Valor Financiado: R$ %.2f%n", financiamento.getValorFinanciado());
+            System.out.printf("Prazo: %d meses%n", financiamento.getPrazoEmMeses());
+            System.out.printf("Taxa de Juros Anual: %.2f%%%n", financiamento.getTaxaJurosAnual());
+            System.out.printf("Tipo de Amortização: %s%n", financiamento.getTipoAmortizacao());
+            System.out.printf("Tipo de Imóvel: %s%n", financiamento.getTipoImovel());
+            System.out.printf("Status do Financiamento: %s%n", financiamento.getFinanciamentoStatus());
+
+            if (financiamento.getTipoImovel() == TipoImovel.CASA) {
+                System.out.printf("Quartos: %d%n", financiamento.getQuartos());
+                System.out.printf("Vagas de Garagem: %d%n", financiamento.getVagasGaragem());
+                System.out.printf("Área do Terreno: %.2f m²%n", financiamento.getAreaTerreno());
+            } else if (financiamento.getTipoImovel() == TipoImovel.APARTAMENTO) {
+                System.out.printf("Andar: %d%n", financiamento.getAndar());
+                System.out.printf("Elevador: %s%n", (financiamento.getElevador() ? "Sim" : "Não"));
+                System.out.printf("Valor do Condomínio: R$ %.2f%n", financiamento.getValorCondominio());
+            } else if (financiamento.getTipoImovel() == TipoImovel.TERRENO) {
+                System.out.printf("Área do Terreno: %.2f m²%n", financiamento.getAreaTerreno());
+            }}
+            catch (SQLException e) {
+                System.out.println("Erro genérico ao acessar o banco de dados. Tente novamente.");
+    }}
+
+
 
     private void menuSimulacao(Scanner scanner) {
         criarFinanciamentoImobiliario(scanner);

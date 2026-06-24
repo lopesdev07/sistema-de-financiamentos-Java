@@ -97,7 +97,8 @@ public class FinanciamentoImobiliarioRepository {
     }
     public FinanciamentoImobiliario buscarFinPorId(int idFinanciamento) throws SQLException {
         String sql = """
-                SELECT valor_financiado,
+                SELECT id_financiamento,
+                valor_financiado,
                 prazo_meses,
                 taxa_juros_anual,
                 tipo_amortizacao,
@@ -125,7 +126,7 @@ public class FinanciamentoImobiliarioRepository {
                     TipoAmortizacao tipoAmortizacao = TipoAmortizacao.valueOf(rs.getString("tipo_amortizacao"));
                     FinanciamentoStatus status = FinanciamentoStatus.valueOf(rs.getString("status"));
 
-                    return new FinanciamentoImobiliario(
+                    FinanciamentoImobiliario financiamento = new FinanciamentoImobiliario(
                             rs.getBigDecimal("valor_financiado"),
                             rs.getInt("prazo_meses"),
                             rs.getBigDecimal("taxa_juros_anual"),
@@ -141,12 +142,14 @@ public class FinanciamentoImobiliarioRepository {
                             rs.getString("zoneamento"),
                             Sessao.getUserId()
                     );
+                    financiamento.setFinID(rs.getInt("id_financiamento"));
+                    return financiamento;
                 }
             }
         }
         return null;
     }
-    public FinanciamentoImobiliario editarFinanciamento(FinanciamentoImobiliario financiamento) throws SQLException {
+    public void editarFinanciamento(FinanciamentoImobiliario financiamento) throws SQLException {
         String sql = """
                 UPDATE financiamentos_imobiliarios
                 SET valor_financiado = ?,
@@ -184,9 +187,8 @@ public class FinanciamentoImobiliarioRepository {
             stmt.setInt(14, financiamento.getFinID());
 
             int rowsUpdated = stmt.executeUpdate();
-            if (rowsUpdated > 0) {
-                return financiamento;
-            } else {
+            if (rowsUpdated > 0) {}
+             else {
                 throw new SQLException("Nenhum registro atualizado. Verifique o ID do financiamento.");
             }
         }

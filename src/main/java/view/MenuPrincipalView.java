@@ -2,6 +2,8 @@ package view;
 
 import repository.FinanciamentoImobiliarioRepository;
 import service.FinanciamentoImobiliarioService;
+
+import java.sql.SQLException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -44,6 +46,8 @@ public class MenuPrincipalView {
             } catch (InputMismatchException e) {
                 System.out.println("Erro: Entrada inválida. Por favor, insira um número inteiro.");
                 scanner.nextLine();
+            } catch (SQLException e) {
+                System.out.println("Erro genérico ao acessar o banco de dados");
             }
         }
     }
