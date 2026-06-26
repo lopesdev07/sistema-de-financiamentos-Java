@@ -162,23 +162,42 @@ public class FinanciamentoImobiliarioService {
 
         financiamentoAtual = null;
     }
-    public void editarFinanciamento(FinanciamentoImobiliario financiamento, BigDecimal valorEntrada, BigDecimal valorImovel, int prazoEmMeses, CondicaoImovel condicaoImovel, TipoAmortizacao tipoAmortizacao, TipoImovel tipoImovel) throws SQLException, EntradaMaiorQueValorDoImovelException {
-        if (!Sessao.isLogado()) {
+    public void editarFinanciamento(Integer finID, BigDecimal valorEntrada, BigDecimal valorImovel, int prazoEmMeses, CondicaoImovel condicaoImovel, TipoAmortizacao tipoAmortizacao, TipoImovel tipoImovel, Integer quartos, Integer vagasGaragem, BigDecimal areaTerreno, Integer andar, Boolean elevador, BigDecimal valorCondominio, String zoneamento) throws SQLException, EntradaMaiorQueValorDoImovelException {
+
+        // auth
+        if (!Sessao.isLogado())
             throw new IllegalStateException("Usuário não autenticado.");
-        }
-        if (Sessao.getUserId() == null || financiamento == null || financiamento.getFinID() == null || financiamento.getTipoImovel() == null) {
-            throw new IllegalArgumentException("Financiamento inválido para edição.");
-        }
-        if (financiamento.getUserId() != (Sessao.getUserId())) {
+
+        if (finID == null)
+            throw new IllegalArgumentException("ID do financiamento inválido.");
+
+        // old fin verifications
+        FinanciamentoImobiliario finExistente = repository.buscarFinPorId(finID);
+
+        if (finExistente == null)
+            throw new IllegalArgumentException("Financiamento não encontrado.");
+
+        if (finExistente.getUserId() != Sessao.getUserId())
             throw new IllegalStateException("Usuário não autorizado a editar este financiamento.");
-        }
-        // pós criação, antes de salvar
-        normalizarObjetoPorTipoImovel(financiamento);
-        verificarObjetoPorTipoImovel(financiamento);
+
+        // new fin verifications
         validarDados(valorEntrada, valorImovel, prazoEmMeses, condicaoImovel, tipoAmortizacao, tipoImovel);
         validarEntrada(valorEntrada, valorImovel);
 
-        repository.editarFinanciamento(financiamento);
+        // new fin obj
+        simularFinanciamento(valorImovel, valorEntrada, prazoEmMeses, condicaoImovel,
+                tipoAmortizacao, tipoImovel, vagasGaragem, quartos, areaTerreno,
+                andar, elevador, valorCondominio, zoneamento);
+
+        FinanciamentoImobiliario novoFinanciamento = getFinanciamentoAtual();
+        novoFinanciamento.setFinID(finID);
+
+        // new fin obj/logic validations
+        normalizarObjetoPorTipoImovel(novoFinanciamento);
+        verificarObjetoPorTipoImovel(novoFinanciamento);
+
+        repository.editarFinanciamento(novoFinanciamento);
+        financiamentoAtual = null;
     }
 
     public void verificarObjetoPorTipoImovel(FinanciamentoImobiliario financiamento) {

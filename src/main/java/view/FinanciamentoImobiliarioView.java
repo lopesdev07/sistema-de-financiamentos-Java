@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class FinanciamentoImobiliarioView {
-    private FinanciamentoImobiliarioService service;
+    private final FinanciamentoImobiliarioService service;
 
     public FinanciamentoImobiliarioView(FinanciamentoImobiliarioService service) {
         this.service = service;
@@ -46,7 +46,7 @@ public class FinanciamentoImobiliarioView {
         scanner.nextLine();
         switch (opcao) {
             case 1 -> visualizarFinanciamentoImobiliario();
-            case 2 -> menuEditarFinanciamentoImobiliario(scanner); // scanner adicionado
+            case 2 -> menuEditarFinanciamentoImobiliario(scanner);
             case 3 -> detalhesFinanciamentoImobiliario(scanner);
             default -> System.out.println("Opção inválida. Tente novamente.");
         }
@@ -58,7 +58,6 @@ public class FinanciamentoImobiliarioView {
 
             for (FinanciamentoImobiliario f : financiamentos) {
                 System.out.printf("""
-                        
             -- Financiamento ID: %d --
             Valor Financiado: R$ %.2f
             Prazo: %d meses
@@ -66,7 +65,6 @@ public class FinanciamentoImobiliarioView {
             Tipo de Amortização: %s
             Tipo de Imóvel: %s
             Status: %s
-                        
             """,
                         f.getFinID(),
                         f.getValorFinanciado(),   // BigDecimal funciona com %.2f
@@ -87,16 +85,84 @@ public class FinanciamentoImobiliarioView {
 
     private void menuEditarFinanciamentoImobiliario(Scanner scanner) {
         try {
-            System.out.println("Aqui você pode editar seus financiamentos salvos por meio de seus IDs.");
-            System.out.println("Para verificar o ID de qualquer financiamento, utilize a opção de visualizar financiamentos salvos.");
-            System.out.print("Digite o ID do financiamento que deseja editar: ");
+            System.out.println("Digite o ID do financiamento que deseja editar:");
+            int idFinanciamento = scanner.nextInt();
+            scanner.nextLine();
 
-            // detalhesFinanciamentoImobiliario...
-            // WIP: service.editarFinanciamento
+            FinanciamentoImobiliario antigoFin = service.buscarFinanciamentoPorId(idFinanciamento);
+
+            TipoImovel tipoImovel = escolherTipoImovel(scanner);
+            TipoAmortizacao tipoAmortizacao = escolherTipoAmortizacao(scanner);
+            CondicaoImovel condicaoImovel = definirCondicaoImovel(scanner);
+
+            System.out.printf("(Atual: R$ %.2f) Novo valor do imóvel: ", antigoFin.getValorImovel());
+            BigDecimal valorImovel = scanner.nextBigDecimal();
+            scanner.nextLine();
+
+            System.out.printf("(Atual: R$ %.2f) Novo valor de entrada: ", antigoFin.getValorEntrada());
+            BigDecimal valorEntrada = scanner.nextBigDecimal();
+            scanner.nextLine();
+
+            System.out.printf("(Atual: %d) Novo prazo em meses: ", antigoFin.getPrazoEmMeses());
+            int prazoEmMeses = scanner.nextInt();
+            scanner.nextLine();
+
+            System.out.printf("(Atual: %s) Novo zoneamento: ", antigoFin.getZoneamento());
+            String zoneamento = scanner.nextLine();
+
+            Integer quartos = null;
+            Integer vagasGaragem = null;
+            BigDecimal areaTerreno = null;
+            Integer andar = null;
+            Boolean elevador = null;
+            BigDecimal valorCondominio = null;
+
+            if (tipoImovel == TipoImovel.CASA) {
+                System.out.printf("(Atual: %d) Quartos: ", antigoFin.getQuartos());
+                quartos = scanner.nextInt();
+                scanner.nextLine();
+                System.out.printf("(Atual: %d) Vagas de garagem: ", antigoFin.getVagasGaragem());
+                vagasGaragem = scanner.nextInt();
+                scanner.nextLine();
+                System.out.printf("(Atual: %.2f) Área do terreno: ", antigoFin.getAreaTerreno());
+                areaTerreno = scanner.nextBigDecimal();
+                scanner.nextLine();
+            }
+
+            if (tipoImovel == TipoImovel.APARTAMENTO) {
+                System.out.printf("(Atual: %d) Andar: ", antigoFin.getAndar());
+                andar = scanner.nextInt();
+                scanner.nextLine();
+                System.out.printf("(Atual: %s) Tem elevador? (1 para sim, 2 para não): ", antigoFin.getElevador() != null && antigoFin.getElevador() ? "Sim" : "Não");
+                int respostaElevador = scanner.nextInt();
+                scanner.nextLine();
+                elevador = respostaElevador == 1;
+                System.out.printf("(Atual: R$ %.2f) Valor do condomínio: ", antigoFin.getValorCondominio());
+                valorCondominio = scanner.nextBigDecimal();
+                scanner.nextLine();
+            }
+
+            if (tipoImovel == TipoImovel.TERRENO) {
+                System.out.printf("(Atual: %.2f) Área do terreno: ", antigoFin.getAreaTerreno());
+                areaTerreno = scanner.nextBigDecimal();
+                scanner.nextLine();
+            }
+
+            service.editarFinanciamento(idFinanciamento, valorEntrada, valorImovel, prazoEmMeses,
+                    condicaoImovel, tipoAmortizacao, tipoImovel, quartos, vagasGaragem,
+                    areaTerreno, andar, elevador, valorCondominio, zoneamento);
+
+            System.out.println("Financiamento editado com sucesso!");
 
         } catch (InputMismatchException e) {
-            System.out.println("ID inválido. Digite apenas números inteiros.");
+            System.out.println("Erro: Entrada inválida. Por favor, tente novamente.");
             scanner.nextLine();
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            System.out.println("Erro: " + e.getMessage());
+        } catch (SQLException e) {
+            System.out.println("Erro genérico ao acessar o banco de dados. Tente novamente.");
+        } catch (EntradaMaiorQueValorDoImovelException e) {
+            System.out.println(e.getMessage());
         }
     }
 
