@@ -2,7 +2,7 @@
 
 # Java financing system | v1.5 BETA - 2026-06-15
 
-**Description:** Financing application developed in Java for practice on backend development. Implements login/register logic, alongside with different types of financings (2.0 VER Exclusive) that can be manipulated through add, exclude and edit methods (excluding and editing are 2.0 VER Exclusive) and viewed so the user can analyze his own financing. All data are manipulated and stored in SQL/MySQL utilizing JDBC.
+**Description:** Financing application developed in Java for practice on backend development. Implements login/register logic, alongside with different types of financings (2.0 VER Exclusive) that can be manipulated through add and edit methods and viewed, so the user can analyze his own financing. All data are manipulated and stored in SQL/MySQL utilizing JDBC.
 
 ## Changelog - v1.5 - 2026-06-15
 ### Upgrades and Fixes:
