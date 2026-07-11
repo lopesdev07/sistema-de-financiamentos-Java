@@ -1,31 +1,33 @@
 package model;
 
 public class User {
-    private String loginCPF;
-    private String senhaHash;
+    private String loginCpf;
+    private String passwordHash;
     private int userId;
 
-    public User(int userId, String loginCPF, String senhaHash) {
+    public User(int userId, String loginCpf, String passwordHash) {
         this.userId = userId;
-        this.loginCPF = loginCPF;
-        this.senhaHash = senhaHash;
+        this.loginCpf = loginCpf;
+        this.passwordHash = passwordHash;
     }
 
-    public String getLoginCPF() {
-        return this.loginCPF;
+    public String getLoginCpf() {
+        return this.loginCpf;
     }
-    public String getSenhaHash() {
-        return this.senhaHash;
+
+    public String getPasswordHash() {
+        return this.passwordHash;
     }
+
     public int getUserId() {
         return this.userId;
     }
+
     public void setUserId(int userId) {
         this.userId = userId;
     }
 
-    public void setSenhaHash(String senhaHash) {
-        this.senhaHash = senhaHash;
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
     }
-
 }

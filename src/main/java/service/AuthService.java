@@ -12,9 +12,9 @@ public class AuthService {
         this.authRepository = authRepository;
     }
 
-    // Validar cpf antes de autenticar ou registrar
+
     public boolean cpfIsValid(String cpf) {
-        if (cpf != null && cpf.length() == 11 && cpf.matches("\\d+")) {;
+        if (cpf != null && cpf.length() == 11 && cpf.matches("\\d+")) {
             return true;
         }
         return false;
@@ -28,46 +28,35 @@ public class AuthService {
             }
 
             var user = authRepository.findByCpf(cpf)
-                    .orElseThrow(UserNotFoundInternalException::new);
+                    .orElseThrow(UserNotFoundException::new);
 
-            if (!util.PasswordUtil.checkPassword(plainPassword, user.getSenhaHash())) {
-                throw new WrongPasswordInternalException();
+            if (!util.PasswordUtil.checkPassword(plainPassword, user.getPasswordHash())) {
+                throw new InvalidPasswordException();
             }
 
-            Sessao.login(user.getUserId());
+            Session.login(user.getUserId());
 
-        } catch (UserNotFoundInternalException | WrongPasswordInternalException e) {
-            // (INTERNAL → EXTERNAL)
+        } catch (UserNotFoundException | InvalidPasswordException e) {
             throw new AuthenticationFailedException();
         }
     }
 
-    // Verificar se o cpf já existe antes de registrar
-    public void checkAlreadyExists(String cpf) throws SQLException, CpfAlreadyExistsException {
+    public void checkAlreadyExists(String cpf) throws SQLException, CpfAlreadyRegisteredException {
         var userOpt2 = authRepository.findByCpf(cpf);
         if (userOpt2.isPresent()) {
-            throw new CpfAlreadyExistsException(cpf);
+            throw new CpfAlreadyRegisteredException(cpf);
         }
     }
 
-    // registrar usuario
-    public void registerUser(String cpf, String plainPassword, User user ) throws SQLException, CpfAlreadyExistsException, InvalidCpfException { // Lógica para registrar um novo usuário
+    public void registerUser(String cpf, String plainPassword, User user ) throws SQLException, CpfAlreadyRegisteredException, InvalidCpfException {
         if (!cpfIsValid(cpf)) {
             throw new InvalidCpfException(cpf);
         }
         checkAlreadyExists(cpf);
 
         String hash = util.PasswordUtil.plainToHash(plainPassword);
-        user.setSenhaHash(hash);
+        user.setPasswordHash(hash);
 
         authRepository.saveUser(user);
 
-}}
-
-
-
-
-
-
-
-
+    }}

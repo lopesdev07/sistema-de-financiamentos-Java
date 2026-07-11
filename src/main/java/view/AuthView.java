@@ -1,7 +1,7 @@
 package view;
 
 import exceptions.AuthenticationFailedException;
-import exceptions.CpfAlreadyExistsException;
+import exceptions.CpfAlreadyRegisteredException;
 import exceptions.InvalidCpfException;
 import model.User;
 import service.AuthService;
@@ -15,42 +15,42 @@ public class AuthView {
         this.service = service;
     }
 
-    public void menuLoginOuRegistro(Scanner scanner) { //cria loop que só se desfaz com o login true
-        boolean autenticado = false;
-        while (!autenticado) {
+    public void loginOrRegisterMenu(Scanner scanner) { // creates a loop that only breaks when login is true
+        boolean authenticated = false;
+        while (!authenticated) {
             try {
-                System.out.println("--- Bem-vindo ao Sistema de Autenticação ---");
-                System.out.println("Antes de navegar pelo sistema, por favor faça login ou registre-se caso seja o primeiro acesso.");
+                System.out.println("--- Welcome to the Authentication System ---");
+                System.out.println("Before navigating the system, please log in or register if this is your first access.");
                 System.out.println("1. Login");
-                System.out.println("2. Registrar-se");
-                System.out.print("Escolha uma opção:");
-                int opcao = scanner.nextInt();
+                System.out.println("2. Register");
+                System.out.print("Choose an option:");
+                int option = scanner.nextInt();
                 scanner.nextLine();
 
-                switch(opcao) {
+                switch(option) {
                     case 1:
-                        autenticado = telaLogin(scanner);
+                        authenticated = loginScreen(scanner);
                         break;
                     case 2:
-                        telaRegistro(scanner);
+                        registerScreen(scanner);
                         break;
                     default:
-                        System.out.println("Opção inválida. Por favor, tente novamente.");
-            }
+                        System.out.println("Invalid option. Please try again.");
+                }
             } catch (InputMismatchException e) {
-                System.out.println("Erro: Entrada inválida. Por favor, insira um número válido");
+                System.out.println("Error: Invalid input. Please enter a valid number");
                 scanner.nextLine();
             }}}
 
-    public boolean telaLogin(Scanner scanner) {
+    public boolean loginScreen(Scanner scanner) {
         try {
-            System.out.println("--- Tela de Login ---");
-            System.out.println("Por favor, insira seu CPF e senha para entrar.");
-            System.out.print("Digite seu CPF:");
+            System.out.println("--- Login Screen ---");
+            System.out.println("Please enter your CPF and password to log in.");
+            System.out.print("Enter your CPF:");
             String cpf = scanner.nextLine();
-            System.out.print("Digite sua senha:");
-            String senha = scanner.nextLine();
-            service.loginAuthenticate(cpf, senha);
+            System.out.print("Enter your password:");
+            String password = scanner.nextLine();
+            service.loginAuthenticate(cpf, password);
             return true;
 
         }
@@ -59,7 +59,7 @@ public class AuthView {
             return false;
         }
         catch (SQLException e) {
-            System.err.println("Erro ao acessar o banco de dados. Tente novamente.");
+            System.err.println("Error accessing the database. Please try again.");
             return false;
         }
         catch (AuthenticationFailedException e) {
@@ -68,34 +68,29 @@ public class AuthView {
         }
     }
 
-    public void telaRegistro(Scanner scanner) {
-        boolean registrado = false;
-        while (!registrado) {
+    public void registerScreen(Scanner scanner) {
+        boolean registered = false;
+        while (!registered) {
             try {
-            System.out.println("--- Tela de registro ---");
-            System.out.println("Por favor, insira seu CPF e senha para se registrar.");
-            System.out.print("Digite seu CPF:");
-            String cpf = scanner.nextLine();
-            System.out.print("Digite sua senha:");
-            String senha = scanner.nextLine();
-            int userID = 0;
+                System.out.println("--- Registration Screen ---");
+                System.out.println("Please enter your CPF and password to register.");
+                System.out.print("Enter your CPF:");
+                String cpf = scanner.nextLine();
+                System.out.print("Enter your password:");
+                String password = scanner.nextLine();
+                int userID = 0;
 
-            User novoUsuario = new User(userID, cpf, senha);
+                User newUser = new User(userID, cpf, password);
 
-            service.registerUser(cpf, senha, novoUsuario);
-            System.out.println("Registro bem-sucedido! Agora você pode fazer login.");
-            registrado = true;
-        } catch (CpfAlreadyExistsException e) {
-            System.out.println(e.getMessage());
-        } catch (InvalidCpfException e) {
-            System.out.println(e.getMessage());
-        } catch (SQLException e) {
-            System.err.println("Erro ao acessar o banco de dados. Tente novamente.");
-        }
-    }}
+                service.registerUser(cpf, password, newUser);
+                System.out.println("Registration successful! You can now log in.");
+                registered = true;
+            } catch (CpfAlreadyRegisteredException e) {
+                System.out.println(e.getMessage());
+            } catch (InvalidCpfException e) {
+                System.out.println(e.getMessage());
+            } catch (SQLException e) {
+                System.err.println("Error accessing the database. Please try again.");
+            }
+        }}
 }
-
-
-
-
-

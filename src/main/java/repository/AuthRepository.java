@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public class AuthRepository {
 
-    public Optional<User> findByCpf(String cpf) throws SQLException { // Lógica para buscar o usuário no banco de dados pelo CPF
+    public Optional<User> findByCpf(String cpf) throws SQLException { // Logic to find the user in the database by CPF
         String sql = "SELECT user_id, login_cpf, senha_hash FROM users WHERE login_cpf = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)){
@@ -16,22 +16,22 @@ public class AuthRepository {
             try (ResultSet rs = stmt.executeQuery();) {
                 if (rs.next()) {
                     int userId = rs.getInt("user_id");
-                    String loginCPF = rs.getString("login_cpf");
-                    String senhaHash = rs.getString("senha_hash");
-                    User user = new User(userId, loginCPF, senhaHash);
-                    return Optional.of(user); // Retorna o usuário encontrado
+                    String loginCpf = rs.getString("login_cpf");
+                    String passwordHash = rs.getString("senha_hash");
+                    User user = new User(userId, loginCpf, passwordHash);
+                    return Optional.of(user);
                 }
-        }}
-        return Optional.empty(); // Retorna um Optional vazio se não encontrar
+            }}
+        return Optional.empty();
     }
 
-    public int saveUser (User user) throws SQLException { // Lógica para salvar um novo usuário no banco de dados
+    public int saveUser (User user) throws SQLException {
         String sql = "INSERT INTO users (login_cpf, senha_hash) VALUES (?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-            stmt.setString(1, user.getLoginCPF());
-            stmt.setString(2, user.getSenhaHash());
+            stmt.setString(1, user.getLoginCpf());
+            stmt.setString(2, user.getPasswordHash());
             stmt.executeUpdate();
             try (ResultSet rs = stmt.getGeneratedKeys()) {
                 if (rs.next()) {
@@ -39,12 +39,11 @@ public class AuthRepository {
                     user.setUserId(generatedId);
                     return generatedId;
                 } else {
-                    throw new SQLException("Nenhuma chave gerada retornada.");
+                    throw new SQLException("No generated key was returned.");
                 }
+            }
         }
-    }
 
 
 
-}}
-
+    }}

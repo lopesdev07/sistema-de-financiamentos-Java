@@ -1,16 +1,18 @@
 # sistema-de-financiamentos-Java
 
-# Java financing system | v1.5 BETA - 2026-06-15
+# Java financing system | v1.8 BETA - 2026-07-11
 
-**Description:** Financing application developed in Java for practice on backend development. Implements login/register logic, alongside with different types of financings (2.0 VER Exclusive) that can be manipulated through add and edit methods and viewed, so the user can analyze his own financing. All data are manipulated and stored in SQL/MySQL utilizing JDBC.
+**Description:** Financing application developed in Java for practice on backend development. Implements login/register system, alongside with different types of financings (2.0 VER Exclusive) that can be manipulated through add and edit methods and viewed so the user can analyze his own financing. All data are manipulated and stored in SQL/MySQL utilizing JDBC.
 
-## Changelog - v1.5 - 2026-06-15
+## Changelog - v1.8 - 2026-07-11
 ### Upgrades and Fixes:
-- Better system architecture and code organization
-- Better register and login logic, with more validations and security measures
-- More validations and exception handling
-- More user-friendly console interface
-- Project structure more organized and modularized, with better separation of concerns
+- All classes, enums, methods, texts, messages, comments and getters/setters were translated to english.
+
+- A bug that inverted the logic of CPF validation was fixed.
+
+- Unreachable code after a throw statement was removed, and two minor code redundancies were cleaned up (an empty conditional block and an unused constructor parameter).
+
+- Boolean loop control in MainMenuView had its logic and name changed for better implementation 
 ---
 
 ## Utilized Technologies
@@ -38,7 +40,7 @@ Data bank structure is defined in the file
 database/schema.sql
 
 ### How to set up the Database
-1. Create a new database in MySQL with the name you prefer (e.g., projeto_financiamentos)
+1. Create a new database in MySQL with the name you prefer (e.g., financing_project)
 2. Execute the following command in your terminal, replacing `your_user`, `database_name` and `schema.sql` with your MySQL username, the name of the database you created and the path to the schema.sql file, respectively:
 ```bash
 mysql -u your_user -p database_name < database/schema.sql
@@ -81,6 +83,10 @@ export DB_PASSWORD="your_password"**
 
 **Next steps for the project:**
 
-1: Finish the 2.0 VERSION of the project, adding more types of financings and finishing exclude and edit methods
+1: Finish the 2.0 VERSION of the project, this includes:
+- Adding more types of financings
+- Translating the entire database to english
+- Create methods for scanners and loops
+- Implementate a proper logging framework for better debugging and error tracking
 
 2: Total migration of the project to Spring Boot
