@@ -210,6 +210,7 @@ public class RealEstateFinancingView {
         saveRealEstateFinancing(scanner);
     }
 
+
     private void saveRealEstateFinancing(Scanner scanner) {
         System.out.println("Do you wish to save this simulation? Type 1 for yes or 2 for no.");
         System.out.print("Type the number corresponding to the action you want to perform:");
