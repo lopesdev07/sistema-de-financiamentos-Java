@@ -1,10 +1,10 @@
 # sistema-de-financiamentos-Java
 
-# Java financing system | v1.8 BETA - 2026-07-11
+# Java financing system | v1.8.5 BETA - 2026-07-14
 
 **Description:** Financing application developed in Java for practice on backend development. Implements login/register system, alongside with different types of financings (2.0 VER Exclusive) that can be manipulated through add and edit methods and viewed so the user can analyze his own financing. All data are manipulated and stored in SQL/MySQL utilizing JDBC.
 
-## Changelog - v1.8 - 2026-07-11
+## Changelog - v1.8.5 - 2026-07-14
 ### Upgrades and Fixes:
 - All classes, enums, methods, texts, messages, comments and getters/setters were translated to english.
 
@@ -12,7 +12,10 @@
 
 - Unreachable code after a throw statement was removed, and two minor code redundancies were cleaned up (an empty conditional block and an unused constructor parameter).
 
-- Boolean loop control in MainMenuView had its logic and name changed for better implementation 
+- Boolean loop control in MainMenuView had its logic and name changed for better implementation
+
+- Database entirely translated to english
+
 ---
 
 ## Utilized Technologies
@@ -60,13 +63,13 @@ Before running the project, it's **obligatory** to configurate the following env
 
 **HOW TO DO THIS FROM POWERSHELL/CMD (WINDOWS)**
 
-**setx DB_URL "jdbc:mysql://localhost:3306/projeto_financiamentos"
+**setx DB_URL "jdbc:mysql://localhost:3306/financing_project"
 setx DB_USER "root"
 setx DB_PASSWORD "your_password"**
 
 **(LINUX / MAC)**
 
-**export DB_URL="jdbc:mysql://localhost:3306/projeto_financiamentos"
+**export DB_URL="jdbc:mysql://localhost:3306/financing_project"
 export DB_USER="root"
 export DB_PASSWORD="your_password"**
 
@@ -85,7 +88,6 @@ export DB_PASSWORD="your_password"**
 
 1: Finish the 2.0 VERSION of the project, this includes:
 - Adding more types of financings
-- Translating the entire database to english
 - Create methods for scanners and loops
 - Implementate a proper logging framework for better debugging and error tracking
 
