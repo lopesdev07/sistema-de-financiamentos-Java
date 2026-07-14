@@ -164,7 +164,7 @@ public class RealEstateFinancingService {
     }
     public void updateFinancing(Integer financingId, BigDecimal downPayment, BigDecimal propertyValue, int loanTermInMonths, PropertyCondition propertyCondition, AmortizationType amortizationType, PropertyType propertyType, Integer bedrooms, Integer parkingSpaces, BigDecimal landArea, Integer floor, Boolean elevator, BigDecimal condominiumFee, String zoning) throws SQLException, InvalidDownPaymentException {
 
-        // auth
+
         if (!Session.isLoggedIn())
             throw new IllegalStateException("User is not authenticated.");
 

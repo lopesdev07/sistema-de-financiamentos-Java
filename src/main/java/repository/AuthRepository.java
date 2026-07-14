@@ -7,7 +7,7 @@ import java.util.Optional;
 public class AuthRepository {
 
     public Optional<User> findByCpf(String cpf) throws SQLException { // Logic to find the user in the database by CPF
-        String sql = "SELECT user_id, login_cpf, senha_hash FROM users WHERE login_cpf = ?";
+        String sql = "SELECT user_id, login_cpf, password_hash FROM users WHERE login_cpf = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)){
 
@@ -17,7 +17,7 @@ public class AuthRepository {
                 if (rs.next()) {
                     int userId = rs.getInt("user_id");
                     String loginCpf = rs.getString("login_cpf");
-                    String passwordHash = rs.getString("senha_hash");
+                    String passwordHash = rs.getString("password_hash");
                     User user = new User(userId, loginCpf, passwordHash);
                     return Optional.of(user);
                 }
@@ -26,7 +26,7 @@ public class AuthRepository {
     }
 
     public int saveUser (User user) throws SQLException {
-        String sql = "INSERT INTO users (login_cpf, senha_hash) VALUES (?, ?)";
+        String sql = "INSERT INTO users (login_cpf, password_hash) VALUES (?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 

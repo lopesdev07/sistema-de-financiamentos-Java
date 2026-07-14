@@ -1,28 +1,25 @@
-Use projeto_financiamentos;
-DROP TABLE IF EXISTS financiamentos_imobiliarios;
+USE financing_project;
 
 CREATE TABLE users (
-user_id INT AUTO_INCREMENT PRIMARY KEY,
+user_id INT auto_increment PRIMARY KEY,
 login_cpf VARCHAR(11) UNIQUE NOT NULL,
-senha_hash VARCHAR(255) NOT NULL
-);
+password_hash VARCHAR(255) NOT NULL);
 
-CREATE TABLE financiamentos_imobiliarios (
-    id_financiamento INT AUTO_INCREMENT PRIMARY KEY,
-    valor_financiado DOUBLE NOT NULL,
-    prazo_meses INT NOT NULL,
-    taxa_juros_anual DOUBLE NOT NULL,
-    tipo_amortizacao VARCHAR(20) NOT NULL,
-    tipo_imovel VARCHAR(20) NOT NULL,
-    status VARCHAR(20) NOT NULL DEFAULT 'SOLICITADO',
-    user_id INT NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(user_id),
+CREATE TABLE realestate_financing (
+financing_id INT AUTO_INCREMENT PRIMARY KEY,
+financed_amount DECIMAL(15,2) NOT NULL,
+loan_term_months INT NOT NULL,
+annual_interest_rate DECIMAL(15,2) NOT NULL,
+amortization_type VARCHAR(20) NOT NULL,
+property_type VARCHAR(20) NOT NULL,
+financing_status VARCHAR(20) NOT NULL DEFAULT 'REQUESTED',
+user_id INT NOT NULL,
+FOREIGN KEY (user_id) REFERENCES users(user_id),
 
-    quartos INT,
-    vagas_garagem INT,
-    area_terreno DOUBLE,
-    andar INT,
-    elevador BOOLEAN,
-    valor_condominio DOUBLE,
-    zoneamento VARCHAR(100)
-);
+bedrooms INT,
+parking_spaces INT,
+land_area DOUBLE,
+floor INT,
+elevator BOOLEAN,
+condominium_fee DECIMAL(15,2),
+zoning VARCHAR(100));

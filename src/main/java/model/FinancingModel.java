@@ -2,11 +2,7 @@ package model;
 
 import java.math.BigDecimal;
 
-/**
- * Represents the base financial contract model.
- * Defines the minimum attributes and behaviors that every financing
- * contract must have.
- */
+
 public abstract class FinancingModel {
 
     private Integer financingId;

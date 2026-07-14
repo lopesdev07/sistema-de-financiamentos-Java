@@ -5,7 +5,6 @@ import model.FinancingStatus;
 import model.AmortizationType;
 import model.PropertyType;
 import service.Session;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,8 +17,8 @@ public class RealEstateFinancingRepository {
     public void saveFinancing(RealEstateFinancing financing) throws SQLException {
 
         String sql = """
-                INSERT INTO financiamentos_imobiliarios
-                (valor_financiado, prazo_meses, taxa_juros_anual, tipo_amortizacao, tipo_imovel, status, user_id, quartos, vagas_garagem, area_terreno, andar, elevador, valor_condominio, zoneamento) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                INSERT INTO realestate_financing
+                (financed_amount, loan_term_months, annual_interest_rate, amortization_type, property_type, financing_status, user_id, bedrooms, parking_spaces, land_area, floor, elevator, condominium_fee, zoning) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """;
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -56,14 +55,14 @@ public class RealEstateFinancingRepository {
     public List<RealEstateFinancing> findAllByUser() throws SQLException {
 
         String sql = """
-        SELECT id_financiamento,
-               valor_financiado,
-               prazo_meses,
-               taxa_juros_anual,
-               tipo_amortizacao,
-               tipo_imovel,
-               status
-        FROM financiamentos_imobiliarios
+        SELECT financing_id,
+               financed_amount,
+               loan_term_months,
+               annual_interest_rate,
+               amortization_type,
+               property_type,
+               financing_status,
+        FROM realestate_financing
         WHERE user_id = ?
     """;
 
@@ -80,16 +79,16 @@ public class RealEstateFinancingRepository {
 
                     RealEstateFinancing financing =
                             new RealEstateFinancing(
-                                    rs.getBigDecimal("valor_financiado"),
-                                    rs.getInt("prazo_meses"),
-                                    rs.getBigDecimal("taxa_juros_anual"),
-                                    AmortizationType.valueOf(rs.getString("tipo_amortizacao")),
-                                    PropertyType.valueOf(rs.getString("tipo_imovel")),
-                                    FinancingStatus.valueOf(rs.getString("status")),
+                                    rs.getBigDecimal("financed_amount"),
+                                    rs.getInt("loan_term_months"),
+                                    rs.getBigDecimal("annual_interest_rate"),
+                                    AmortizationType.valueOf(rs.getString("amortization_type")),
+                                    PropertyType.valueOf(rs.getString("property_type")),
+                                    FinancingStatus.valueOf(rs.getString("financing_status")),
                                     Session.getUserId()
                             );
 
-                    financing.setFinancingId(rs.getInt("id_financiamento"));
+                    financing.setFinancingId(rs.getInt("financing_id"));
                     financings.add(financing);
                 }
             }
@@ -101,22 +100,22 @@ public class RealEstateFinancingRepository {
     public RealEstateFinancing findById(int financingId) throws SQLException {
 
         String sql = """
-                SELECT id_financiamento,
-                valor_financiado,
-                prazo_meses,
-                taxa_juros_anual,
-                tipo_amortizacao,
-                tipo_imovel,
-                status,
-                quartos,
-                vagas_garagem,
-                area_terreno,
-                andar,
-                elevador,
-                valor_condominio,
-                zoneamento
-                FROM financiamentos_imobiliarios
-                WHERE id_financiamento = ?
+                SELECT financing_id,
+                financed_amount,
+                loan_term_months,
+                annual_interest_rate,
+                amortization_type,
+                property_type,
+                financing_status,
+                bedrooms = ?,
+                parking_spaces = ?,
+                land_area = ?,
+                floor = ?,
+                elevator = ?,
+                condominium_fee = ?,
+                zoning = ?
+                FROM realestate_financing
+                WHERE financing_id = ?
             """;
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -128,28 +127,28 @@ public class RealEstateFinancingRepository {
 
                 if (rs.next()) {
 
-                    PropertyType propertyType = PropertyType.valueOf(rs.getString("tipo_imovel"));
-                    AmortizationType amortizationType = AmortizationType.valueOf(rs.getString("tipo_amortizacao"));
-                    FinancingStatus status = FinancingStatus.valueOf(rs.getString("status"));
+                    PropertyType propertyType = PropertyType.valueOf(rs.getString("property_type"));
+                    AmortizationType amortizationType = AmortizationType.valueOf(rs.getString("amortization_type"));
+                    FinancingStatus status = FinancingStatus.valueOf(rs.getString("financing_status"));
 
                     RealEstateFinancing financing = new RealEstateFinancing(
-                            rs.getBigDecimal("valor_financiado"),
-                            rs.getInt("prazo_meses"),
-                            rs.getBigDecimal("taxa_juros_anual"),
+                            rs.getBigDecimal("financed_amount"),
+                            rs.getInt("loan_term_months"),
+                            rs.getBigDecimal("annual_interest_rate"),
                             amortizationType,
                             propertyType,
                             status,
-                            rs.getObject("quartos", Integer.class),
-                            rs.getObject("vagas_garagem", Integer.class),
-                            rs.getBigDecimal("area_terreno"),
-                            rs.getObject("andar", Integer.class),
-                            rs.getObject("elevador", Boolean.class),
-                            rs.getBigDecimal("valor_condominio"),
-                            rs.getString("zoneamento"),
+                            rs.getObject("bedrooms", Integer.class),
+                            rs.getObject("parking_spaces", Integer.class),
+                            rs.getBigDecimal("land_area"),
+                            rs.getObject("floor", Integer.class),
+                            rs.getObject("elevator", Boolean.class),
+                            rs.getBigDecimal("condominium_fee"),
+                            rs.getString("zoning"),
                             Session.getUserId()
                     );
 
-                    financing.setFinancingId(rs.getInt("id_financiamento"));
+                    financing.setFinancingId(rs.getInt("financing_id"));
 
                     return financing;
                 }
@@ -162,21 +161,21 @@ public class RealEstateFinancingRepository {
     public void updateFinancing(RealEstateFinancing financing) throws SQLException {
 
         String sql = """
-                UPDATE financiamentos_imobiliarios
-                SET valor_financiado = ?,
-                    prazo_meses = ?,
-                    taxa_juros_anual = ?,
-                    tipo_amortizacao = ?,
-                    tipo_imovel = ?,
-                    status = ?,
-                    quartos = ?,
-                    vagas_garagem = ?,
-                    area_terreno = ?,
-                    andar = ?,
-                    elevador = ?,
-                    valor_condominio = ?,
-                    zoneamento = ?
-                WHERE id_financiamento = ?
+                UPDATE realestate_financing
+                SET financed_amount = ?,
+                    loan_term_months = ?,
+                    annual_interest_rate = ?,
+                    amortization_type = ?,
+                    property_type = ?,
+                    financing_status = ?,
+                    bedrooms = ?,
+                    parking_spaces = ?,
+                    land_area = ?,
+                    floor = ?,
+                    elevator = ?,
+                    condominium_fee = ?,
+                    zoning = ?
+                WHERE financing_id = ?
             """;
 
         try (Connection conn = DatabaseConnection.getConnection();
