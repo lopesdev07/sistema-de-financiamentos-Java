@@ -61,7 +61,7 @@ public class RealEstateFinancingRepository {
                annual_interest_rate,
                amortization_type,
                property_type,
-               financing_status,
+               financing_status
         FROM realestate_financing
         WHERE user_id = ?
     """;
@@ -101,22 +101,22 @@ public class RealEstateFinancingRepository {
 
         String sql = """
                 SELECT financing_id,
-                financed_amount,
-                loan_term_months,
-                annual_interest_rate,
-                amortization_type,
-                property_type,
-                financing_status,
-                bedrooms = ?,
-                parking_spaces = ?,
-                land_area = ?,
-                floor = ?,
-                elevator = ?,
-                condominium_fee = ?,
-                zoning = ?
-                FROM realestate_financing
-                WHERE financing_id = ?
-            """;
+                 financed_amount,
+                 loan_term_months,
+                 annual_interest_rate,
+                 amortization_type,
+                 property_type,
+                 financing_status,
+                 bedrooms,
+                 parking_spaces,
+                 land_area,
+                 floor,
+                 elevator,
+                 condominium_fee,
+                 zoning
+          FROM realestate_financing
+          WHERE financing_id = ?
+           \s""";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
