@@ -2,9 +2,9 @@ package view;
 
 import repository.RealEstateFinancingRepository;
 import service.RealEstateFinancingService;
+import util.ScannerUtil;
 
 import java.sql.SQLException;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class MainMenuView {
@@ -23,7 +23,7 @@ public class MainMenuView {
                 System.out.println("3. Exit the system");
                 System.out.print("Choose an option: ");
 
-                switch(scanner.nextInt()) {
+                switch(ScannerUtil.intScanner(scanner)) {
                     case 1:
                         menu.realEstateFinancingMenu(scanner);
                         break;
@@ -37,9 +37,6 @@ public class MainMenuView {
                     default:
                         System.out.println("Invalid option. Please try again.");
                 }
-            } catch (InputMismatchException e) {
-                System.out.println("Error: Invalid Input. Please enter a valid number.");
-                scanner.nextLine();
             } catch (SQLException e) {
                 System.out.println("Error: a database error occurred. Please try again.");
             }

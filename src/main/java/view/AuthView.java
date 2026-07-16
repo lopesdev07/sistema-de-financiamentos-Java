@@ -5,8 +5,8 @@ import exceptions.CpfAlreadyRegisteredException;
 import exceptions.InvalidCpfException;
 import model.User;
 import service.AuthService;
+import util.ScannerUtil;
 import java.sql.SQLException;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class AuthView {
@@ -18,38 +18,33 @@ public class AuthView {
     public void loginOrRegisterMenu(Scanner scanner) { // creates a loop that only breaks when login is true
         boolean authenticated = false;
         while (!authenticated) {
-            try {
-                System.out.println("--- Welcome to the Authentication System ---");
-                System.out.println("Before navigating the system, please log in or register if this is your first access.");
-                System.out.println("1. Login");
-                System.out.println("2. Register");
-                System.out.print("Choose an option:");
-                int option = scanner.nextInt();
-                scanner.nextLine();
+            System.out.println("--- Welcome to the Authentication System ---");
+            System.out.println("Before navigating the system, please log in or register if this is your first access.");
+            System.out.println("1. Login");
+            System.out.println("2. Register");
+            System.out.print("Choose an option:");
+            int option = ScannerUtil.intScanner(scanner);
 
-                switch(option) {
-                    case 1:
-                        authenticated = loginScreen(scanner);
-                        break;
-                    case 2:
-                        registerScreen(scanner);
-                        break;
-                    default:
-                        System.out.println("Invalid option. Please try again.");
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Error: Invalid input. Please enter a valid number");
-                scanner.nextLine();
-            }}}
+            switch(option) {
+                case 1:
+                    authenticated = loginScreen(scanner);
+                    break;
+                case 2:
+                    registerScreen(scanner);
+                    break;
+                default:
+                    System.out.println("Invalid option. Please try again.");
+            }
+        }}
 
     public boolean loginScreen(Scanner scanner) {
         try {
             System.out.println("--- Login Screen ---");
             System.out.println("Please enter your CPF and password to log in.");
             System.out.print("Enter your CPF:");
-            String cpf = scanner.nextLine();
+            String cpf = ScannerUtil.stringScanner(scanner);
             System.out.print("Enter your password:");
-            String password = scanner.nextLine();
+            String password = ScannerUtil.stringScanner(scanner);
             service.loginAuthenticate(cpf, password);
             return true;
 
@@ -75,9 +70,9 @@ public class AuthView {
                 System.out.println("--- Registration Screen ---");
                 System.out.println("Please enter your CPF and password to register.");
                 System.out.print("Enter your CPF:");
-                String cpf = scanner.nextLine();
+                String cpf = ScannerUtil.stringScanner(scanner);
                 System.out.print("Enter your password:");
-                String password = scanner.nextLine();
+                String password = ScannerUtil.stringScanner(scanner);
                 int userID = 0;
 
                 User newUser = new User(userID, cpf, password);

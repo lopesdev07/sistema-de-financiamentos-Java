@@ -4,9 +4,9 @@ import exceptions.InvalidDownPaymentException;
 import exceptions.FinancingNotFoundException;
 import model.*;
 import service.RealEstateFinancingService;
+import util.ScannerUtil;
 import java.math.BigDecimal;
 import java.sql.SQLException;
-import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -23,8 +23,7 @@ public class RealEstateFinancingView {
         System.out.println("2. Manage Saved Financings");
         System.out.println("3. Return to Main Menu");
         System.out.print("Type the number corresponding to the action you want to perform:");
-        int option = scanner.nextInt();
-        scanner.nextLine();
+        int option = ScannerUtil.intScanner(scanner);
         switch (option) {
             case 1 -> simulationMenu(scanner);
             case 2 -> managementMenu(scanner);
@@ -35,17 +34,18 @@ public class RealEstateFinancingView {
 
     private void managementMenu(Scanner scanner) {
         System.out.println("This is the Real Estate Financing Management Menu.");
-        System.out.println("Here you can view, edit or delete your saved real estate financing simulations.");
+        System.out.println("Here you can view all your saved financings, edit them, or view details of a specific financing.");
         System.out.println("1. View saved financings");
         System.out.println("2. Edit saved financings");
         System.out.println("3. View details of a specific financing");
+        System.out.println("4. Return to Main Menu");
         System.out.print("Type the number corresponding to the action you want to perform:");
-        int option = scanner.nextInt();
-        scanner.nextLine();
+        int option = ScannerUtil.intScanner(scanner);
         switch (option) {
             case 1 -> viewRealEstateFinancings();
             case 2 -> editRealEstateFinancing(scanner);
             case 3 -> viewRealEstateFinancingDetails(scanner);
+            case 4 -> System.out.println("Returning to the main menu...");
             default -> System.out.println("Invalid option. Please try again.");
         }
     }
@@ -85,8 +85,7 @@ public class RealEstateFinancingView {
         try {
             System.out.println("Type the ID of the financing you want to edit and then provide the new values for the financing. If you want to keep a value unchanged, just type the same value as before.");
             System.out.println("ID: ");
-            int financingID = scanner.nextInt();
-            scanner.nextLine();
+            int financingID = ScannerUtil.intScanner(scanner);
 
             RealEstateFinancing oldFin = service.findFinancingById(financingID);
 
@@ -95,19 +94,16 @@ public class RealEstateFinancingView {
             PropertyCondition propertyCondition = definePropertyCondition(scanner);
 
             System.out.printf("(Current: R$ %.2f) New property value: ", oldFin.getPropertyValue());
-            BigDecimal propertyValue = scanner.nextBigDecimal();
-            scanner.nextLine();
+            BigDecimal propertyValue = ScannerUtil.bigDecimalScanner(scanner);
 
             System.out.printf("(Current: R$ %.2f) New down payment: ", oldFin.getDownPayment());
-            BigDecimal downPayment = scanner.nextBigDecimal();
-            scanner.nextLine();
+            BigDecimal downPayment = ScannerUtil.bigDecimalScanner(scanner);
 
             System.out.printf("(Current: %d) New loan term in months: ", oldFin.getLoanTermInMonths());
-            int loanTermInMonths = scanner.nextInt();
-            scanner.nextLine();
+            int loanTermInMonths = ScannerUtil.intScanner(scanner);
 
             System.out.printf("(Current: %s) New zoning: ", oldFin.getZoning());
-            String zoning = scanner.nextLine();
+            String zoning = ScannerUtil.stringScanner(scanner);
 
             Integer rooms = null;
             Integer parkingSpaces = null;
@@ -118,33 +114,26 @@ public class RealEstateFinancingView {
 
             if (propertyType == PropertyType.HOUSE) {
                 System.out.printf("(Current: %d) Rooms: ", oldFin.getBedrooms());
-                rooms = scanner.nextInt();
-                scanner.nextLine();
+                rooms = ScannerUtil.intScanner(scanner);
                 System.out.printf("(Current: %d) Parking spaces: ", oldFin.getParkingSpaces());
-                parkingSpaces = scanner.nextInt();
-                scanner.nextLine();
+                parkingSpaces = ScannerUtil.intScanner(scanner);
                 System.out.printf("(Current: %.2f) Land area: ", oldFin.getLandArea());
-                landArea = scanner.nextBigDecimal();
-                scanner.nextLine();
+                landArea = ScannerUtil.bigDecimalScanner(scanner);
             }
 
             if (propertyType == PropertyType.APARTMENT) {
                 System.out.printf("(Current: %d) Floor: ", oldFin.getFloor());
-                floor = scanner.nextInt();
-                scanner.nextLine();
+                floor = ScannerUtil.intScanner(scanner);
                 System.out.printf("(Current: %s) Has elevator? (1 for Yes, 2 for No): ", oldFin.hasElevator() != null && oldFin.hasElevator() ? "Yes" : "No");
-                int hasElevator = scanner.nextInt();
-                scanner.nextLine();
+                int hasElevator = ScannerUtil.intScanner(scanner);
                 elevator = hasElevator == 1;
                 System.out.printf("(Current: R$ %.2f) Condominium value: ", oldFin.getCondominiumFee());
-                condominiumValue = scanner.nextBigDecimal();
-                scanner.nextLine();
+                condominiumValue = ScannerUtil.bigDecimalScanner(scanner);
             }
 
             if (propertyType == PropertyType.LAND) {
                 System.out.printf("(Current: %.2f) Land area: ", oldFin.getLandArea());
-                landArea = scanner.nextBigDecimal();
-                scanner.nextLine();
+                landArea = ScannerUtil.bigDecimalScanner(scanner);
             }
 
             service.updateFinancing(financingID, downPayment, propertyValue, loanTermInMonths,
@@ -153,9 +142,6 @@ public class RealEstateFinancingView {
 
             System.out.println("Financing successfully edited!");
 
-        } catch (InputMismatchException e) {
-            System.out.println("Error: invalid value. Please check your inputs and try again.");
-            scanner.nextLine();
         } catch (IllegalArgumentException e) {
             System.out.println("Error: " + e.getMessage());
         } catch (IllegalStateException e) {
@@ -170,8 +156,7 @@ public class RealEstateFinancingView {
     private void viewRealEstateFinancingDetails(Scanner scanner) {
         try {
             System.out.print("Type the ID of the financing you want to see details for: ");
-            int financingID = scanner.nextInt();
-            scanner.nextLine();
+            int financingID = ScannerUtil.intScanner(scanner);
             RealEstateFinancing financing = service.findFinancingById(financingID);
             System.out.println("===== FINANCING DETAILS =====");
             System.out.printf("Financing ID: %d%n", financing.getFinancingId());
@@ -210,12 +195,10 @@ public class RealEstateFinancingView {
         saveRealEstateFinancing(scanner);
     }
 
-
     private void saveRealEstateFinancing(Scanner scanner) {
         System.out.println("Do you wish to save this simulation? Type 1 for yes or 2 for no.");
         System.out.print("Type the number corresponding to the action you want to perform:");
-        int answer = scanner.nextInt();
-        scanner.nextLine();
+        int answer = ScannerUtil.intScanner(scanner);
         try {
             if (answer == 1) {
                 service.saveCurrentFinancing();
@@ -246,39 +229,31 @@ public class RealEstateFinancingView {
             PropertyCondition propertyCondition = definePropertyCondition(scanner);
 
             System.out.print("Property value: ");
-            BigDecimal propertyValue = scanner.nextBigDecimal();
-            scanner.nextLine();
+            BigDecimal propertyValue = ScannerUtil.bigDecimalScanner(scanner);
 
             System.out.print("Down payment: ");
-            BigDecimal downPayment = scanner.nextBigDecimal();
-            scanner.nextLine();
+            BigDecimal downPayment = ScannerUtil.bigDecimalScanner(scanner);
 
             System.out.print("Zoning: ");
-            String zoning = scanner.nextLine();
+            String zoning = ScannerUtil.stringScanner(scanner);
 
             System.out.print("Desired loan term in months: ");
-            int loanTermInMonths = scanner.nextInt();
-            scanner.nextLine();
+            int loanTermInMonths = ScannerUtil.intScanner(scanner);
 
             if (propertyType == PropertyType.HOUSE) {
                 System.out.print("Number of rooms: ");
-                rooms = scanner.nextInt();
-                scanner.nextLine();
+                rooms = ScannerUtil.intScanner(scanner);
                 System.out.print("Parking spaces: ");
-                parkingSpaces = scanner.nextInt();
-                scanner.nextLine();
+                parkingSpaces = ScannerUtil.intScanner(scanner);
                 System.out.print("Total land area: ");
-                landArea = scanner.nextBigDecimal();
-                scanner.nextLine();
+                landArea = ScannerUtil.bigDecimalScanner(scanner);
             }
 
             if (propertyType == PropertyType.APARTMENT) {
                 System.out.print("Apartment floor: ");
-                floor = scanner.nextInt();
-                scanner.nextLine();
+                floor = ScannerUtil.intScanner(scanner);
                 System.out.print("Has elevator? (1 for Yes, 2 for No): ");
-                int hasElevator = scanner.nextInt();
-                scanner.nextLine();
+                int hasElevator = ScannerUtil.intScanner(scanner);
                 if (hasElevator == 1) {
                     elevator = true;
                 } else if (hasElevator == 2) {
@@ -288,14 +263,12 @@ public class RealEstateFinancingView {
                     elevator = false;
                 }
                 System.out.print("Condominium value: ");
-                condominiumValue = scanner.nextBigDecimal();
-                scanner.nextLine();
+                condominiumValue = ScannerUtil.bigDecimalScanner(scanner);
             }
 
             if (propertyType == PropertyType.LAND) {
                 System.out.print("Land area: ");
-                landArea = scanner.nextBigDecimal();
-                scanner.nextLine();
+                landArea = ScannerUtil.bigDecimalScanner(scanner);
             }
 
             service.simulateFinancing(propertyValue, downPayment, loanTermInMonths, propertyCondition,
@@ -304,9 +277,6 @@ public class RealEstateFinancingView {
 
             System.out.println("The financing simulation was created successfully! You can now view the details and choose to save it if you wish.");
 
-        } catch (InputMismatchException e) {
-            System.out.println("Invalid value. Try again.");
-            scanner.nextLine();
         } catch (InvalidDownPaymentException e) {
             System.out.println("Error: " + e.getMessage());
         } catch (IllegalArgumentException e) {
@@ -321,8 +291,7 @@ public class RealEstateFinancingView {
         System.out.println("1 - SAC");
         System.out.println("2 - PRICE");
         System.out.print("Type the number corresponding to the action you want to perform:");
-        int option = scanner.nextInt();
-        scanner.nextLine();
+        int option = ScannerUtil.intScanner(scanner);
         return switch (option) {
             case 1 -> AmortizationType.SAC;
             case 2 -> AmortizationType.PRICE;
@@ -336,8 +305,7 @@ public class RealEstateFinancingView {
         System.out.println("2 - Apartment");
         System.out.println("3 - Land");
         System.out.print("Type the number corresponding to the action you want to perform:");
-        int option = scanner.nextInt();
-        scanner.nextLine();
+        int option = ScannerUtil.intScanner(scanner);
         return switch (option) {
             case 1 -> PropertyType.HOUSE;
             case 2 -> PropertyType.APARTMENT;
@@ -351,8 +319,7 @@ public class RealEstateFinancingView {
         System.out.println("1 - New");
         System.out.println("2 - Second-hand");
         System.out.print("Type the number corresponding to the action you want to perform:");
-        int option = scanner.nextInt();
-        scanner.nextLine();
+        int option = ScannerUtil.intScanner(scanner);
         return switch (option) {
             case 1 -> PropertyCondition.NEW;
             case 2 -> PropertyCondition.SECOND_HAND;

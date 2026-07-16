@@ -5,7 +5,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class ScannerUtil {
-    public int intScanner(Scanner scanner) {
+    public static int intScanner(Scanner scanner) {
         int value;
         while (true) {
             try {
@@ -31,7 +31,7 @@ public class ScannerUtil {
         }
     }
 
-    public BigDecimal bigDecimalScanner(Scanner scanner) {
+    public static BigDecimal bigDecimalScanner(Scanner scanner) {
         BigDecimal value;
         while (true) {
             try {
