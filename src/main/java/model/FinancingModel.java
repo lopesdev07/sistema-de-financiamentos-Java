@@ -33,40 +33,20 @@ public abstract class FinancingModel {
         return this.financedAmount;
     }
 
-    public void setFinancedAmount(BigDecimal financedAmount) {
-        this.financedAmount = financedAmount;
-    }
-
     public Integer getLoanTermInMonths() {
         return this.loanTermInMonths;
-    }
-
-    public void setLoanTermInMonths(int loanTermInMonths) {
-        this.loanTermInMonths = loanTermInMonths;
     }
 
     public BigDecimal getAnnualInterestRate() {
         return this.annualInterestRate;
     }
 
-    public void setAnnualInterestRate(BigDecimal annualInterestRate) {
-        this.annualInterestRate = annualInterestRate;
-    }
-
     public AmortizationType getAmortizationType() {
         return this.amortizationType;
     }
 
-    public void setAmortizationType(AmortizationType amortizationType) {
-        this.amortizationType = amortizationType;
-    }
-
     public FinancingStatus getStatus() {
         return this.status;
-    }
-
-    public void setStatus(FinancingStatus status) {
-        this.status = status;
     }
 
     public int getUserId() {

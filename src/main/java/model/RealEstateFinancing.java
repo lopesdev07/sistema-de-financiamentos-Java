@@ -176,11 +176,6 @@ public class RealEstateFinancing extends FinancingModel {
         );
     }
 
-    @Override
-    public Integer getLoanTermInMonths() {
-        return super.getLoanTermInMonths();
-    }
-
     public void setInstallmentAmount(BigDecimal installmentAmount) {
         this.installmentAmount = installmentAmount;
     }

@@ -2,12 +2,10 @@ package service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-
 import exceptions.InvalidDownPaymentException;
 import exceptions.FinancingNotFoundException;
 import model.*;
 import repository.RealEstateFinancingRepository;
-
 import java.sql.SQLException;
 import java.util.List;
 
