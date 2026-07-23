@@ -101,6 +101,10 @@ public class RealEstateFinancingService {
         currentFinancing.setPropertyCondition(propertyCondition);
         currentFinancing.setPropertyType(propertyType);
 
+        normalizePropertyTypeData(currentFinancing);
+        validatePropertyTypeData(currentFinancing);
+
+
         calculateInstallments(currentFinancing);
     }
 
@@ -189,10 +193,6 @@ public class RealEstateFinancingService {
 
         RealEstateFinancing newFinancing = getCurrentFinancing();
         newFinancing.setFinancingId(financingId);
-
-        // new fin obj/logic validations
-        normalizePropertyTypeData(newFinancing);
-        validatePropertyTypeData(newFinancing);
 
         repository.updateFinancing(newFinancing);
         currentFinancing = null;

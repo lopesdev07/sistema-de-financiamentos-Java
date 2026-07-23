@@ -1,20 +1,16 @@
 # sistema-de-financiamentos-Java
 
-# Java financing system | v1.8.5 BETA - 2026-07-14
+# Java financing system | v1.9 BETA - 2026-07-22
 
-**Description:** Financing application developed in Java for practice on backend development. Implements login/register system, alongside with different types of financings (2.0 VER Exclusive) that can be manipulated through add and edit methods and viewed so the user can analyze his own financing. All data are manipulated and stored in SQL/MySQL utilizing JDBC.
+**Description:** Financing application developed in Java for practice on backend development. Implements login/register system, alongside with different types of financings that can be manipulated through add and edit methods and viewed so the user can analyze his own financing. All data are manipulated and stored in SQL/MySQL utilizing JDBC.
 
-## Changelog - v1.8.5 - 2026-07-14
+## Changelog - v1.9 - 2026-07-22
 ### Upgrades and Fixes:
-- All classes, enums, methods, texts, messages, comments and getters/setters were translated to english.
+- New type of financing added and implemented all along the system: Vehicle financing. 
 
-- A bug that inverted the logic of CPF validation was fixed.
+- User-friendly message when displaying a simulated financing.
 
-- Unreachable code after a throw statement was removed, and two minor code redundancies were cleaned up (an empty conditional block and an unused constructor parameter).
-
-- Boolean loop control in MainMenuView had its logic and name changed for better implementation
-
-- Database entirely translated to english
+- SQL Schema updated to include the new financing type.
 
 ---
 
@@ -87,7 +83,6 @@ export DB_PASSWORD="your_password"**
 **Next steps for the project:**
 
 1: Finish the 2.0 VERSION of the project, this includes:
-- Adding more types of financings
 - Create methods for scanners and loops
 - Implementate a proper logging framework for better debugging and error tracking
 

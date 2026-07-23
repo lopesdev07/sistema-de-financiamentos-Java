@@ -1,7 +1,9 @@
 package view;
 
 import repository.RealEstateFinancingRepository;
+import repository.VehicleFinancingRepository;
 import service.RealEstateFinancingService;
+import service.VehicleFinancingService;
 import util.ScannerUtil;
 
 import java.sql.SQLException;
@@ -15,11 +17,12 @@ public class MainMenuView {
 
             try {
                 RealEstateFinancingView menu = new RealEstateFinancingView(new RealEstateFinancingService(new RealEstateFinancingRepository()));
+                VehicleFinancingView vehicleMenu = new VehicleFinancingView(new VehicleFinancingService(new VehicleFinancingRepository()));
                 System.out.println("--- Main Menu ---");
                 System.out.println("Welcome to the Financing Management System.");
                 System.out.println("Choose the option that determines which financing type you want to manage: ");
                 System.out.println("1. Real estate financing");
-                System.out.println("2. Other types of financing (WIP)");
+                System.out.println("2. Vehicle financing");
                 System.out.println("3. Exit the system");
                 System.out.print("Choose an option: ");
 
@@ -28,7 +31,7 @@ public class MainMenuView {
                         menu.realEstateFinancingMenu(scanner);
                         break;
                     case 2:
-                        System.out.println("No other financing types are available yet.");
+                        vehicleMenu.vehicleFinancingMenu(scanner);
                         break;
                     case 3:
                         System.out.println("Exiting the system. Goodbye!");

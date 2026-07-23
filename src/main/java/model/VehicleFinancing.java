@@ -73,6 +73,7 @@ public class VehicleFinancing extends FinancingModel {
                         "Vehicle Type: %s%n" +
                         "Condition: %s%n" +
                         "Amortization Type: %s%n%n" +
+
                         "--- Financing Information ---%n" +
                         "Financing Status: %s%n" +
                         "Financed Amount: R$ %.2f%n" +

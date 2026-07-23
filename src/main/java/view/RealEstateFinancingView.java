@@ -93,10 +93,10 @@ public class RealEstateFinancingView {
             AmortizationType amortizationType = chooseAmortizationType(scanner);
             PropertyCondition propertyCondition = definePropertyCondition(scanner);
 
-            System.out.printf("(Current: R$ %.2f) New property value: ", oldFin.getPropertyValue());
+            System.out.print("New property value: ");
             BigDecimal propertyValue = ScannerUtil.bigDecimalScanner(scanner);
 
-            System.out.printf("(Current: R$ %.2f) New down payment: ", oldFin.getDownPayment());
+            System.out.print("New down payment: ");
             BigDecimal downPayment = ScannerUtil.bigDecimalScanner(scanner);
 
             System.out.printf("(Current: %d) New loan term in months: ", oldFin.getLoanTermInMonths());
@@ -329,6 +329,7 @@ public class RealEstateFinancingView {
 
     private void displayRealEstateFinancingSimulation(RealEstateFinancing fin) {
         System.out.println("Here you can see the details of your financing simulation");
+        System.out.println("Please note that if this is a simulation, the financing ID will always be null, as it is not saved in the database yet.");
         System.out.println(fin.toString());
     }
 }
